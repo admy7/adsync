@@ -1,0 +1,27 @@
+spring:
+    application:
+        name: OP-Case-Study
+    datasource:
+        url: jdbc://postgresql://localhost:5432/db
+        username: user
+        password: password
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        properties:
+          hibernate:
+              format_sql: true
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+application:
+    security:
+        cors:
+            origins: http://localhost:5173
+
+server:
+    servlet:
+        context-path: /api/v1/
+    port: 8080
