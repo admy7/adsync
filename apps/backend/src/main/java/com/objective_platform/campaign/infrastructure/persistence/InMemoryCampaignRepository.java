@@ -21,4 +21,14 @@ public class InMemoryCampaignRepository implements CampaignRepository {
     public void save(Campaign campaign) {
         campaigns.add(campaign);
     }
+
+    @Override
+    public void clear() {
+        campaigns.clear();
+    }
+
+    @Override
+    public void delete(String id) {
+        campaigns.removeIf(c -> c.id().equals(id));
+    }
 }

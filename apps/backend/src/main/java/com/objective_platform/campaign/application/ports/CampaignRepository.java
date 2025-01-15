@@ -7,4 +7,8 @@ import java.util.Optional;
 public interface CampaignRepository {
     Optional<Campaign> findById(String id);
     void save(Campaign campaign);
+
+    void clear();
+
+    void delete(String id);
 }
