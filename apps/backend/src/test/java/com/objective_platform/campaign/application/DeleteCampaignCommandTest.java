@@ -34,7 +34,6 @@ public class DeleteCampaignCommandTest {
         handler.handle(command);
 
         var potentialCampaign = campaignRepository.findById(savedCampaignId);
-
         assertThat(potentialCampaign).isEmpty();
     }
 

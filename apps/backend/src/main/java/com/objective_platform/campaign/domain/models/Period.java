@@ -4,19 +4,18 @@ import com.objective_platform.campaign.domain.exceptions.InvalidCampaignDatesExc
 import com.objective_platform.campaign.domain.exceptions.InvalidCampaignPeriodException;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 public class Period {
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
-    private final static DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public Period(String start, String end) {
+        requireValidDates(start, end);
 
-    public Period(String startDate, String endDate) {
-        requireValidDates(startDate, endDate);
-
-        this.startDate = LocalDateTime.parse(startDate, FORMATTER);
-        this.endDate = LocalDateTime.parse(endDate, FORMATTER);
+        this.start = LocalDateTime.parse(start, ISO_LOCAL_DATE_TIME);
+        this.end = LocalDateTime.parse(end, ISO_LOCAL_DATE_TIME);
     }
 
     private void requireValidDates(String startDate, String endDate) {
@@ -24,8 +23,8 @@ public class Period {
         LocalDateTime endDateParsed;
 
         try {
-            startDateParsed = LocalDateTime.parse(startDate, FORMATTER);
-            endDateParsed = LocalDateTime.parse(endDate, FORMATTER);
+            startDateParsed = LocalDateTime.parse(startDate, ISO_LOCAL_DATE_TIME);
+            endDateParsed = LocalDateTime.parse(endDate, ISO_LOCAL_DATE_TIME);
         } catch (Exception e) {
             throw new InvalidCampaignDatesException();
         }
@@ -33,5 +32,13 @@ public class Period {
         if (startDateParsed.isAfter(endDateParsed)) {
             throw new InvalidCampaignPeriodException();
         }
+    }
+
+    public LocalDateTime start() {
+        return start;
+    }
+
+    public LocalDateTime end() {
+        return end;
     }
 }

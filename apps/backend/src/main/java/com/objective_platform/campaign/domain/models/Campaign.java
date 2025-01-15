@@ -19,4 +19,16 @@ public class Campaign {
     public String id() {
         return id;
     }
+
+    public Channel channel() {
+        return channel;
+    }
+
+    public double budget() {
+        return budget;
+    }
+
+    public Period period() {
+        return period;
+    }
 }
