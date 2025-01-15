@@ -5,13 +5,13 @@ import java.util.UUID;
 public class Campaign {
 
     private String id;
-    private String channel;
+    private Channel channel;
     private double budget;
     private Period period;
 
     public Campaign(String channel, double budget, Period period) {
         this.id = UUID.randomUUID().toString();
-        this.channel = channel;
+        this.channel = Channel.valueOf(channel);
         this.budget = budget;
         this.period = period;
     }
