@@ -6,16 +6,16 @@ import com.objective_platform.campaign.domain.models.Period;
 import com.objective_platform.campaign.domain.viewmodels.IdResponse;
 
 public class CreateCampaignCommandHandler {
-    private final CampaignRepository campaignRepository;
+    private final CampaignRepository inMemoryCampaignRepository;
 
-    public CreateCampaignCommandHandler(CampaignRepository campaignRepository) {
-        this.campaignRepository = campaignRepository;
+    public CreateCampaignCommandHandler(CampaignRepository inMemoryCampaignRepository) {
+        this.inMemoryCampaignRepository = inMemoryCampaignRepository;
     }
 
     public IdResponse handle(CreateCampaignCommand command) {
         Campaign campaign = new Campaign(command.channel(), command.budget(), new Period(command.startDate(), command.endDate()));
 
-        campaignRepository.save(campaign);
+        inMemoryCampaignRepository.save(campaign);
 
         return new IdResponse(campaign.id());
     }
