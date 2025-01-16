@@ -1,4 +1,4 @@
-package com.objective_platform.campaign.application;
+package com.objective_platform.campaign.application.usecases;
 
 public record CreateCampaignCommand(
         String channel,

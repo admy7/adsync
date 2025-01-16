@@ -1,4 +1,4 @@
-package com.objective_platform.campaign.application;
+package com.objective_platform.campaign.application.usecases;
 
 import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.domain.models.exceptions.CampaignNotFoundException;
