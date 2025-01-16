@@ -13,27 +13,25 @@ import static org.assertj.core.api.Assertions.*;
 public class DeleteCampaignCommandTest {
 
     private CampaignRepository campaignRepository = new InMemoryCampaignRepository();
-    private String savedCampaignId;
+    private String campaignId = "1";
 
     @BeforeEach
     void setUp() {
         campaignRepository.clear();
 
-        Campaign campaign = new Campaign("RADIO", 1000, new Period("2025-05-01 08:00:00", "2025-07-31 08:00:00"));
-        savedCampaignId = campaign.id();
-
+        Campaign campaign = new Campaign(campaignId, "RADIO", 1000, new Period("2025-05-01T08:00:00", "2025-07-31T08:00:00"));
         campaignRepository.save(campaign);
     }
 
     @Test
     void deleteCampaign() {
-        var command = new DeleteCampaignCommand(savedCampaignId);
+        var command = new DeleteCampaignCommand(campaignId);
 
         var handler = new DeleteCampaignCommandHandler(campaignRepository);
 
         handler.handle(command);
 
-        var potentialCampaign = campaignRepository.findById(savedCampaignId);
+        var potentialCampaign = campaignRepository.findById(campaignId);
         assertThat(potentialCampaign).isEmpty();
     }
 

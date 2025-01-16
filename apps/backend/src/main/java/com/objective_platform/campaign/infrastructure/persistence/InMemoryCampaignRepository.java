@@ -3,23 +3,21 @@ package com.objective_platform.campaign.infrastructure.persistence;
 import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.domain.models.Campaign;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public class InMemoryCampaignRepository implements CampaignRepository {
-    private final Set<Campaign> campaigns = new HashSet<>();
+    private final Map<String, Campaign> campaigns = new HashMap<>();
 
     @Override
     public Optional<Campaign> findById(String id) {
-        return campaigns.stream()
-            .filter(c -> c.id().equals(id))
-            .findFirst();
+        return campaigns.get(id) == null ? Optional.empty() : Optional.of(campaigns.get(id).deepClone());
     }
 
     @Override
     public void save(Campaign campaign) {
-        campaigns.add(campaign);
+        campaigns.put(campaign.id(), campaign);
     }
 
     @Override
@@ -29,6 +27,6 @@ public class InMemoryCampaignRepository implements CampaignRepository {
 
     @Override
     public void delete(String id) {
-        campaigns.removeIf(c -> c.id().equals(id));
+        campaigns.remove(id);
     }
 }
