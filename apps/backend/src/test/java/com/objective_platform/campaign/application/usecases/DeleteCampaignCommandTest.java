@@ -2,11 +2,14 @@ package com.objective_platform.campaign.application.usecases;
 
 import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.domain.models.Campaign;
+import com.objective_platform.campaign.domain.models.Channel;
 import com.objective_platform.campaign.domain.models.Period;
 import com.objective_platform.campaign.domain.models.exceptions.CampaignNotFoundException;
 import com.objective_platform.campaign.infrastructure.persistence.InMemoryCampaignRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -19,7 +22,10 @@ public class DeleteCampaignCommandTest {
     void setUp() {
         campaignRepository.clear();
 
-        Campaign campaign = new Campaign(campaignId, "RADIO", 1000, new Period("2025-05-01T08:00:00", "2025-07-31T08:00:00"));
+        LocalDateTime start = LocalDateTime.parse("2025-05-01T08:00:00");
+        LocalDateTime end = LocalDateTime.parse("2025-07-31T08:00:00");
+        Campaign campaign = new Campaign(campaignId, Channel.RADIO, 1000d, new Period(start, end));
+
         campaignRepository.save(campaign);
     }
 
@@ -31,8 +37,8 @@ public class DeleteCampaignCommandTest {
 
         handler.handle(command);
 
-        var potentialCampaign = campaignRepository.findById(campaignId);
-        assertThat(potentialCampaign).isEmpty();
+        var campaignQuery = campaignRepository.findById(campaignId);
+        assertThat(campaignQuery).isEmpty();
     }
 
     @Test

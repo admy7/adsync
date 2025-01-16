@@ -8,16 +8,16 @@ import com.objective_platform.campaign.domain.viewmodels.IdResponse;
 import java.util.UUID;
 
 public class CreateCampaignCommandHandler {
-    private final CampaignRepository inMemoryCampaignRepository;
+    private final CampaignRepository campaignRepository;
 
-    public CreateCampaignCommandHandler(CampaignRepository inMemoryCampaignRepository) {
-        this.inMemoryCampaignRepository = inMemoryCampaignRepository;
+    public CreateCampaignCommandHandler(CampaignRepository campaignRepository) {
+        this.campaignRepository = campaignRepository;
     }
 
     public IdResponse handle(CreateCampaignCommand command) {
-        Campaign campaign = new Campaign(UUID.randomUUID().toString(), command.channel(), command.budget(), new Period(command.startDate(), command.endDate()));
+        Campaign campaign = new Campaign(UUID.randomUUID().toString(), command.channel(), command.budget(), new Period(command.start(), command.end()));
 
-        inMemoryCampaignRepository.save(campaign);
+        campaignRepository.save(campaign);
 
         return new IdResponse(campaign.id());
     }

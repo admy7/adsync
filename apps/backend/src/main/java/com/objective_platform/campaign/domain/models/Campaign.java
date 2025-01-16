@@ -1,15 +1,17 @@
 package com.objective_platform.campaign.domain.models;
 
+import java.time.LocalDateTime;
+
 public class Campaign {
 
     private String id;
     private Channel channel;
-    private double budget;
+    private Double budget;
     private Period period;
 
-    public Campaign(String id, String channel, double budget, Period period) {
+    public Campaign(String id, Channel channel, Double budget, Period period) {
         this.id = id;
-        this.channel = Channel.valueOf(channel);
+        this.channel = channel;
         this.budget = budget;
         this.period = period;
     }
@@ -22,7 +24,7 @@ public class Campaign {
         return channel;
     }
 
-    public double budget() {
+    public Double budget() {
         return budget;
     }
 
@@ -30,23 +32,23 @@ public class Campaign {
         return period;
     }
 
-    public void updateBudget(double budget) {
+    public void updateChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    public void updateBudget(Double budget) {
         this.budget = budget;
     }
 
-    public void updateChannel(String channel) {
-        this.channel = Channel.valueOf(channel);
+    public void updateStart(LocalDateTime start) {
+        this.period = new Period(start, period.end());
     }
 
-    public void updateStartDate(String startDate) {
-        this.period = new Period(startDate, period.end().toString());
-    }
-
-    public void updateEndDate(String endDate) {
-        this.period = new Period(period.start().toString(), endDate);
+    public void updateEnd(LocalDateTime end) {
+        this.period = new Period(period.start(), end);
     }
 
     public Campaign deepClone() {
-        return new Campaign(id, channel.toString(), budget, new Period(period.start().toString(), period.end().toString()));
+        return new Campaign(id, channel, budget, new Period(period.start(), period.end()));
     }
 }

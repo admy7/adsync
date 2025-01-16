@@ -5,13 +5,17 @@ import com.objective_platform.campaign.domain.viewmodels.IdResponse;
 import com.objective_platform.campaign.infrastructure.persistence.InMemoryCampaignRepository;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class CreateCampaignCommandTest {
 
     @Test
     public void createCampaign() {
-        var command = new CreateCampaignCommand("TV", 2500, "2025-02-01T08:00:00", "2025-03-01T14:00:00");
+        LocalDateTime start = LocalDateTime.parse("2025-02-01T08:00:00");
+        LocalDateTime end = LocalDateTime.parse("2025-03-01T14:00:00");
+        var command = new CreateCampaignCommand(Channel.TV, 2500d, start, end);
 
         var repository = new InMemoryCampaignRepository();
         var handler = new CreateCampaignCommandHandler(repository);

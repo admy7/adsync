@@ -17,8 +17,8 @@ public class UpdateCampaignCommandHandler {
 
         command.budget().ifPresent(campaign::updateBudget);
         command.channel().ifPresent(campaign::updateChannel);
-        command.startDate().ifPresent(campaign::updateStartDate);
-        command.endDate().ifPresent(campaign::updateEndDate);
+        command.startDate().ifPresent(campaign::updateStart);
+        command.endDate().ifPresent(campaign::updateEnd);
 
         campaignRepository.save(campaign);
     }

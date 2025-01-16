@@ -1,20 +1,23 @@
 package com.objective_platform.campaign.application.usecases;
 
+import com.objective_platform.campaign.domain.models.Channel;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class UpdateCampaignCommand {
     private String id;
-    private String channel;
+    private Channel channel;
     private Double budget;
-    private String startDate;
-    private String endDate;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
-    public UpdateCampaignCommand(String id, String channel, Double budget, String startDate, String endDate) {
+    public UpdateCampaignCommand(String id, Channel channel, Double budget, LocalDateTime start, LocalDateTime end) {
         this.id = id;
-        this.budget = budget;
-        this.endDate = endDate;
-        this.startDate = startDate;
         this.channel = channel;
+        this.budget = budget;
+        this.start = start;
+        this.end = end;
     }
 
     public String id() {
@@ -25,15 +28,15 @@ public class UpdateCampaignCommand {
         return Optional.ofNullable(budget);
     }
 
-    public Optional<String> channel() {
+    public Optional<Channel> channel() {
         return Optional.ofNullable(channel);
     }
 
-    public Optional<String> startDate() {
-        return Optional.ofNullable(startDate);
+    public Optional<LocalDateTime> startDate() {
+        return Optional.ofNullable(start);
     }
 
-    public Optional<String> endDate() {
-        return Optional.ofNullable(endDate);
+    public Optional<LocalDateTime> endDate() {
+        return Optional.ofNullable(end);
     }
 }

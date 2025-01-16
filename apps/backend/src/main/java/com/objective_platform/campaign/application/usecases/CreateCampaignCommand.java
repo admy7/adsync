@@ -1,9 +1,13 @@
 package com.objective_platform.campaign.application.usecases;
 
+import com.objective_platform.campaign.domain.models.Channel;
+
+import java.time.LocalDateTime;
+
 public record CreateCampaignCommand(
-        String channel,
-        double budget,
-        String startDate,
-        String endDate) {
+        Channel channel,
+        Double budget,
+        LocalDateTime start,
+        LocalDateTime end) {
 }
 
