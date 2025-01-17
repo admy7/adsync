@@ -2,24 +2,26 @@ package com.objective_platform.campaign.infrastructure.api;
 
 import com.objective_platform.campaign.application.usecases.CreateCampaignCommand;
 import com.objective_platform.campaign.application.usecases.CreateCampaignCommandHandler;
+import com.objective_platform.campaign.application.usecases.DeleteCampaignCommand;
+import com.objective_platform.campaign.application.usecases.DeleteCampaignCommandHandler;
 import com.objective_platform.campaign.domain.viewmodels.IdResponse;
 import com.objective_platform.campaign.infrastructure.api.dto.CreateCampaignDTO;
+import com.objective_platform.campaign.infrastructure.api.dto.DeleteCampaignDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/campaigns")
 public class CampaignController {
 
-    private final CreateCampaignCommandHandler handler;
+    private final CreateCampaignCommandHandler createCampaignCommandHandler;
+    private final DeleteCampaignCommandHandler deleteCampaignCommandHandler;
 
-    public CampaignController(CreateCampaignCommandHandler handler) {
-        this.handler = handler;
+    public CampaignController(CreateCampaignCommandHandler createCampaignCommandHandler, DeleteCampaignCommandHandler deleteCampaignCommandHandler) {
+        this.createCampaignCommandHandler = createCampaignCommandHandler;
+        this.deleteCampaignCommandHandler = deleteCampaignCommandHandler;
     }
 
     @PostMapping
@@ -30,8 +32,17 @@ public class CampaignController {
                 dto.startDate(),
                 dto.endDate());
 
-        var response = handler.handle(command);
+        var response = createCampaignCommandHandler.handle(command);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteCampaign(@Valid @RequestBody DeleteCampaignDTO dto) {
+        DeleteCampaignCommand command = new DeleteCampaignCommand(dto.id());
+
+        deleteCampaignCommandHandler.handle(command);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
