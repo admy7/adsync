@@ -1,0 +1,19 @@
+package com.objective_platform.auth.application.services;
+
+import com.objective_platform.auth.services.BCryptPasswordHasher;
+import com.objective_platform.auth.services.PasswordHasher;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class PasswordHasherTest {
+    private final PasswordHasher hasher = new BCryptPasswordHasher();
+
+    @Test
+    void hashPassword() {
+        String clearPassword = "test_1234";
+        String hashedPassword = hasher.hash(clearPassword);
+
+        assertThat(hasher.match(clearPassword, hashedPassword)).isTrue();
+    }
+}
