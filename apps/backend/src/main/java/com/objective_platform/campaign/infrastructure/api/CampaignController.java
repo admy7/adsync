@@ -6,7 +6,6 @@ import com.objective_platform.campaign.application.usecases.DeleteCampaignComman
 import com.objective_platform.campaign.application.usecases.UpdateCampaignCommand;
 import com.objective_platform.campaign.domain.viewmodels.IdResponse;
 import com.objective_platform.campaign.infrastructure.api.dto.CreateCampaignDTO;
-import com.objective_platform.campaign.infrastructure.api.dto.DeleteCampaignDTO;
 import com.objective_platform.campaign.infrastructure.api.dto.UpdateCampaignDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -36,19 +35,19 @@ public class CampaignController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteCampaign(@Valid @RequestBody DeleteCampaignDTO dto) {
-        DeleteCampaignCommand command = new DeleteCampaignCommand(dto.id());
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCampaign(@PathVariable String id) {
+        DeleteCampaignCommand command = new DeleteCampaignCommand(id);
 
         pipeline.send(command);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping
-    public ResponseEntity<Void> updateCampaign(@Valid @RequestBody UpdateCampaignDTO dto) {
+    @PatchMapping("{id}")
+    public ResponseEntity<Void> updateCampaign(@PathVariable String id, @Valid @RequestBody UpdateCampaignDTO dto) {
         UpdateCampaignCommand command = new UpdateCampaignCommand(
-                dto.id(),
+                id,
                 dto._channel(),
                 dto._budget(),
                 dto._startDate(),

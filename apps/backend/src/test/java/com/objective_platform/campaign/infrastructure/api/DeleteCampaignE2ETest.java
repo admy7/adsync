@@ -1,12 +1,10 @@
 package com.objective_platform.campaign.infrastructure.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.objective_platform.OpCaseStudyTestConfiguration;
 import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.domain.models.Campaign;
 import com.objective_platform.campaign.domain.models.Channel;
 import com.objective_platform.campaign.domain.models.Period;
-import com.objective_platform.campaign.infrastructure.api.dto.DeleteCampaignDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.testcontainers.shaded.com.github.dockerjava.core.MediaType;
 
 import java.time.LocalDateTime;
 
@@ -29,9 +26,6 @@ public class DeleteCampaignE2ETest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private CampaignRepository campaignRepository;
@@ -50,13 +44,9 @@ public class DeleteCampaignE2ETest {
 
     @Test
     void deleteCampaign() throws Exception {
-        var dto = new DeleteCampaignDTO(campaignId);
-
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.delete("/campaigns")
-                                .contentType(MediaType.APPLICATION_JSON.getMediaType())
-                                .content(objectMapper.writeValueAsString(dto)))
+                        MockMvcRequestBuilders.delete("/campaigns/5"))
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
                 .andReturn();
 
@@ -67,13 +57,9 @@ public class DeleteCampaignE2ETest {
 
     @Test
     void deleteNonExistingCampaign_ReturnsNotFound() throws Exception {
-        var dto = new DeleteCampaignDTO("non-existing-id");
-
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.delete("/campaigns")
-                                .contentType(MediaType.APPLICATION_JSON.getMediaType())
-                                .content(objectMapper.writeValueAsString(dto)))
+                        MockMvcRequestBuilders.delete("/campaigns/non-existing-id"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andReturn();
     }

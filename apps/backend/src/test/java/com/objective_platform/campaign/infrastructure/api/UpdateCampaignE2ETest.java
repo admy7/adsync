@@ -52,11 +52,11 @@ public class UpdateCampaignE2ETest {
 
     @Test
     void updateCampaign() throws Exception {
-        var dto = new UpdateCampaignDTO(campaignId, Channel.TV, 10_000d, "2025-01-01T08:00:00", "2025-05-01T08:00:00");
+        var dto = new UpdateCampaignDTO(Channel.TV, 10_000d, "2025-01-01T08:00:00", "2025-05-01T08:00:00");
 
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.patch("/campaigns")
+                        MockMvcRequestBuilders.patch("/campaigns/5")
                                 .contentType(MediaType.APPLICATION_JSON.getMediaType())
                                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
@@ -72,11 +72,11 @@ public class UpdateCampaignE2ETest {
 
     @Test
     void updatePartiallyCampaign() throws Exception {
-        var dto = new UpdateCampaignDTO(campaignId, null, 25_000d, null, "2025-05-01T08:00:00");
+        var dto = new UpdateCampaignDTO(null, 25_000d, null, "2025-05-01T08:00:00");
 
         mockMvc
                 .perform(
-                        MockMvcRequestBuilders.patch("/campaigns")
+                        MockMvcRequestBuilders.patch("/campaigns/5")
                                 .contentType(MediaType.APPLICATION_JSON.getMediaType())
                                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
