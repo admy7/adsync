@@ -81,7 +81,7 @@ public class CreateCampaignE2ETest {
 
     @Test
     void createCampaignWithMissingField_ReturnsBadRequest() throws Exception {
-        var dto = new CreateCampaignDTO(null, 10_000, "2025-04-01", "2025-05-01T08:00:00");
+        var dto = new CreateCampaignDTO(null, 10_000, "2025-04-01T08:00:00", "2025-05-01T08:00:00");
 
         mockMvc
                 .perform(

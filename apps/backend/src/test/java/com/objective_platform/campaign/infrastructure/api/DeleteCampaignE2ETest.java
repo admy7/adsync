@@ -52,14 +52,13 @@ public class DeleteCampaignE2ETest {
     void deleteCampaign() throws Exception {
         var dto = new DeleteCampaignDTO(campaignId);
 
-        var response =
-                mockMvc
-                        .perform(
-                                MockMvcRequestBuilders.delete("/campaigns")
-                                        .contentType(MediaType.APPLICATION_JSON.getMediaType())
-                                        .content(objectMapper.writeValueAsString(dto)))
-                        .andExpect(MockMvcResultMatchers.status().isNoContent())
-                        .andReturn();
+        mockMvc
+                .perform(
+                        MockMvcRequestBuilders.delete("/campaigns")
+                                .contentType(MediaType.APPLICATION_JSON.getMediaType())
+                                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
+                .andReturn();
 
         var campaignQuery = campaignRepository.findById(campaignId);
 
@@ -70,13 +69,12 @@ public class DeleteCampaignE2ETest {
     void deleteNonExistingCampaign_ReturnsNotFound() throws Exception {
         var dto = new DeleteCampaignDTO("non-existing-id");
 
-        var response =
-                mockMvc
-                        .perform(
-                                MockMvcRequestBuilders.delete("/campaigns")
-                                        .contentType(MediaType.APPLICATION_JSON.getMediaType())
-                                        .content(objectMapper.writeValueAsString(dto)))
-                        .andExpect(MockMvcResultMatchers.status().isNotFound())
-                        .andReturn();
+        mockMvc
+                .perform(
+                        MockMvcRequestBuilders.delete("/campaigns")
+                                .contentType(MediaType.APPLICATION_JSON.getMediaType())
+                                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andReturn();
     }
 }

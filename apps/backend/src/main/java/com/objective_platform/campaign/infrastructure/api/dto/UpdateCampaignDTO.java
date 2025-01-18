@@ -2,12 +2,27 @@ package com.objective_platform.campaign.infrastructure.api.dto;
 
 import com.objective_platform.campaign.domain.models.Channel;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public record UpdateCampaignDTO(@NotBlank(message = "Campaign id is mandatory") String id, Channel channel,
-                                Double budget, String start, String end) {
+public record UpdateCampaignDTO(@NotBlank(message = "Campaign id is mandatory") String id,
+                                Channel channel,
+
+                                Double budget,
+
+                                @Pattern(
+                                        regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
+                                        message = "Date must follow the ISO DateTime format: yyyy-MM-ddTHH:mm:ss"
+                                )
+                                String start,
+
+                                @Pattern(
+                                        regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
+                                        message = "Date must follow the ISO DateTime format: yyyy-MM-ddTHH:mm:ss"
+                                )
+                                String end) {
 
     public Optional<Channel> _channel() {
         return Optional.ofNullable(channel);
