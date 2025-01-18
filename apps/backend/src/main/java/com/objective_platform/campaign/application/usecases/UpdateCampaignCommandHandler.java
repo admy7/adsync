@@ -1,16 +1,18 @@
 package com.objective_platform.campaign.application.usecases;
 
+import an.awesome.pipelinr.Command;
+import an.awesome.pipelinr.Voidy;
 import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.domain.models.exceptions.CampaignNotFoundException;
 
-public class UpdateCampaignCommandHandler {
+public class UpdateCampaignCommandHandler implements Command.Handler<UpdateCampaignCommand, Voidy> {
     private final CampaignRepository campaignRepository;
 
     public UpdateCampaignCommandHandler(CampaignRepository campaignRepository) {
         this.campaignRepository = campaignRepository;
     }
 
-    public void handle(UpdateCampaignCommand command) {
+    public Voidy handle(UpdateCampaignCommand command) {
         var campaign = campaignRepository.findById(command.id()).orElseThrow(
                 () -> new CampaignNotFoundException(command.id())
         );
@@ -21,5 +23,7 @@ public class UpdateCampaignCommandHandler {
         command.end().ifPresent(campaign::updateEnd);
 
         campaignRepository.save(campaign);
+
+        return new Voidy();
     }
 }

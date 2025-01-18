@@ -1,6 +1,9 @@
 package com.objective_platform.campaign.infrastructure.api;
 
-import com.objective_platform.campaign.application.usecases.*;
+import an.awesome.pipelinr.Pipeline;
+import com.objective_platform.campaign.application.usecases.CreateCampaignCommand;
+import com.objective_platform.campaign.application.usecases.DeleteCampaignCommand;
+import com.objective_platform.campaign.application.usecases.UpdateCampaignCommand;
 import com.objective_platform.campaign.domain.viewmodels.IdResponse;
 import com.objective_platform.campaign.infrastructure.api.dto.CreateCampaignDTO;
 import com.objective_platform.campaign.infrastructure.api.dto.DeleteCampaignDTO;
@@ -14,14 +17,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/campaigns")
 public class CampaignController {
 
-    private final CreateCampaignCommandHandler createCampaignCommandHandler;
-    private final DeleteCampaignCommandHandler deleteCampaignCommandHandler;
-    private final UpdateCampaignCommandHandler updateCampaignCommandHandler;
+    private final Pipeline pipeline;
 
-    public CampaignController(CreateCampaignCommandHandler createCampaignCommandHandler, DeleteCampaignCommandHandler deleteCampaignCommandHandler, UpdateCampaignCommandHandler updateCampaignCommandHandler) {
-        this.createCampaignCommandHandler = createCampaignCommandHandler;
-        this.deleteCampaignCommandHandler = deleteCampaignCommandHandler;
-        this.updateCampaignCommandHandler = updateCampaignCommandHandler;
+    public CampaignController(Pipeline pipeline, Pipeline pipeline1) {
+        this.pipeline = pipeline1;
     }
 
     @PostMapping
@@ -32,7 +31,7 @@ public class CampaignController {
                 dto.startDate(),
                 dto.endDate());
 
-        var response = createCampaignCommandHandler.handle(command);
+        var response = pipeline.send(command);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -41,7 +40,7 @@ public class CampaignController {
     public ResponseEntity<Void> deleteCampaign(@Valid @RequestBody DeleteCampaignDTO dto) {
         DeleteCampaignCommand command = new DeleteCampaignCommand(dto.id());
 
-        deleteCampaignCommandHandler.handle(command);
+        pipeline.send(command);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -55,7 +54,7 @@ public class CampaignController {
                 dto._startDate(),
                 dto._endDate());
 
-        updateCampaignCommandHandler.handle(command);
+        pipeline.send(command);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
