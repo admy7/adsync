@@ -5,7 +5,7 @@ import an.awesome.pipelinr.Voidy;
 import com.objective_platform.auth.application.ports.UserRepository;
 import com.objective_platform.auth.domain.exceptions.EmailAlreadyTakenException;
 import com.objective_platform.auth.domain.models.User;
-import com.objective_platform.auth.services.PasswordHasher;
+import com.objective_platform.auth.application.services.PasswordHasher;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package com.objective_platform.auth.services;
+package com.objective_platform.auth.application.services;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

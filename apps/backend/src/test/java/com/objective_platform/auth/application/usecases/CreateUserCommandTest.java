@@ -4,7 +4,8 @@ import com.objective_platform.auth.application.ports.UserRepository;
 import com.objective_platform.auth.domain.exceptions.EmailAlreadyTakenException;
 import com.objective_platform.auth.domain.models.User;
 import com.objective_platform.auth.infrastructure.persistence.InMemoryUserRepository;
-import com.objective_platform.auth.services.BCryptPasswordHasher;
+import com.objective_platform.auth.application.services.BCryptPasswordHasher;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +15,11 @@ public class CreateUserCommandTest {
 
     private UserRepository userRepository = new InMemoryUserRepository();
     private BCryptPasswordHasher passwordHasher = new BCryptPasswordHasher();
+
+    @BeforeEach
+    void setUp() {
+        userRepository.clear();
+    }
 
     @Test
     void createUser() {

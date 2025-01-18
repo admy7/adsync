@@ -26,6 +26,15 @@ public class SqlCampaignRepository implements CampaignRepository {
     }
 
     @Override
+    public List<Campaign> findAll() {
+        return entityManager.createQuery("SELECT c FROM SqlCampaign c", SqlCampaign.class)
+                .getResultList()
+                .stream()
+                .map(CampaignMapper::toDomain)
+                .toList();
+    }
+
+    @Override
     public void save(Campaign campaign) {
         SqlCampaign sqlCampaign = mapper.toSql(campaign);
 
@@ -40,14 +49,5 @@ public class SqlCampaignRepository implements CampaignRepository {
     @Override
     public void clear() {
         entityManager.createQuery("DELETE FROM SqlCampaign").executeUpdate();
-    }
-
-    @Override
-    public List<Campaign> findAll() {
-        return entityManager.createQuery("SELECT c FROM SqlCampaign c", SqlCampaign.class)
-                .getResultList()
-                .stream()
-                .map(CampaignMapper::toDomain)
-                .toList();
     }
 }

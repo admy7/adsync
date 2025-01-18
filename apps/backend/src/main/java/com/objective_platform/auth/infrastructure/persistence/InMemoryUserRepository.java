@@ -19,4 +19,9 @@ public class InMemoryUserRepository implements UserRepository {
     public void save(User user) {
         users.put(user.email(), user);
     }
+
+    @Override
+    public void clear() {
+        users.clear();
+    }
 }

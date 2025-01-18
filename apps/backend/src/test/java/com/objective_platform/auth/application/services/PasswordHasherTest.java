@@ -1,7 +1,5 @@
 package com.objective_platform.auth.application.services;
 
-import com.objective_platform.auth.services.BCryptPasswordHasher;
-import com.objective_platform.auth.services.PasswordHasher;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
