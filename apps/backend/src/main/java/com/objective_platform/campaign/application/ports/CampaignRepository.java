@@ -2,6 +2,8 @@ package com.objective_platform.campaign.application.ports;
 
 import com.objective_platform.campaign.domain.models.Campaign;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface CampaignRepository {
@@ -12,4 +14,6 @@ public interface CampaignRepository {
     void delete(String id);
 
     void clear();
+
+    List<Campaign> findAll();
 }

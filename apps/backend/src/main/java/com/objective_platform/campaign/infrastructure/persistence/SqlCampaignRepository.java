@@ -7,6 +7,7 @@ import com.objective_platform.campaign.infrastructure.persistence.models.SqlCamp
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -39,5 +40,14 @@ public class SqlCampaignRepository implements CampaignRepository {
     @Override
     public void clear() {
         entityManager.createQuery("DELETE FROM SqlCampaign").executeUpdate();
+    }
+
+    @Override
+    public List<Campaign> findAll() {
+        return entityManager.createQuery("SELECT c FROM SqlCampaign c", SqlCampaign.class)
+                .getResultList()
+                .stream()
+                .map(CampaignMapper::toDomain)
+                .toList();
     }
 }

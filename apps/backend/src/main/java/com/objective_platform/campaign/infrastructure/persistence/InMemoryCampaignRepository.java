@@ -4,6 +4,7 @@ import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.domain.models.Campaign;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,5 +29,10 @@ public class InMemoryCampaignRepository implements CampaignRepository {
     @Override
     public void clear() {
         campaigns.clear();
+    }
+
+    @Override
+    public List<Campaign> findAll() {
+        return List.copyOf(campaigns.values());
     }
 }
