@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -31,7 +32,7 @@ public class UpdateCampaignCommandTest {
 
     @Test
     void updateCampaign() {
-        var command = new UpdateCampaignCommand(campaignId, Channel.SOCIAL_MEDIA, 10_000d, LocalDateTime.parse("2025-03-01T08:00:00"), LocalDateTime.parse("2025-04-01T14:00:00"));
+        var command = new UpdateCampaignCommand(campaignId, Optional.of(Channel.SOCIAL_MEDIA), Optional.of(10_000d), Optional.of(LocalDateTime.parse("2025-03-01T08:00:00")), Optional.of(LocalDateTime.parse("2025-04-01T14:00:00")));
 
         var handler = new UpdateCampaignCommandHandler(campaignRepository);
 
@@ -47,7 +48,7 @@ public class UpdateCampaignCommandTest {
 
     @Test
     void updateCampaignPartially() {
-        var command = new UpdateCampaignCommand(campaignId, Channel.SOCIAL_MEDIA, null, null, LocalDateTime.parse("2025-10-01T14:00:00"));
+        var command = new UpdateCampaignCommand(campaignId, Optional.of(Channel.SOCIAL_MEDIA), Optional.ofNullable(null), Optional.ofNullable(null), Optional.of(LocalDateTime.parse("2025-10-01T14:00:00")));
 
         var handler = new UpdateCampaignCommandHandler(campaignRepository);
 
@@ -63,7 +64,7 @@ public class UpdateCampaignCommandTest {
 
     @Test
     void updateNonExistingCampaign_shouldThrow() {
-        var command = new UpdateCampaignCommand("non-existing-id", Channel.SOCIAL_MEDIA, null, null, null);
+        var command = new UpdateCampaignCommand("non-existing-id", Optional.of(Channel.SOCIAL_MEDIA), null, null, null);
 
         var handler = new UpdateCampaignCommandHandler(campaignRepository);
 

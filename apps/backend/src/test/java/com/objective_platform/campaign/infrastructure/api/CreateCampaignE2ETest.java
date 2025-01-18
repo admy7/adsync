@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(OpCaseStudyTestConfiguration.class)
-public class CreateCampaignCommandE2ETest {
+public class CreateCampaignE2ETest {
 
     @Autowired
     private MockMvc mockMvc;

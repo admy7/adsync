@@ -21,12 +21,12 @@ public class InMemoryCampaignRepository implements CampaignRepository {
     }
 
     @Override
-    public void clear() {
-        campaigns.clear();
+    public void delete(String id) {
+        campaigns.remove(id);
     }
 
     @Override
-    public void delete(String id) {
-        campaigns.remove(id);
+    public void clear() {
+        campaigns.clear();
     }
 }

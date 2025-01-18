@@ -1,4 +1,4 @@
-package com.objective_platform.core.infrastructure.api;
+package com.objective_platform.core.infrastructure.api.errors;
 
 import java.util.List;
 

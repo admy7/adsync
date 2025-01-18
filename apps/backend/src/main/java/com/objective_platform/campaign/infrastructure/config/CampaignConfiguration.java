@@ -3,6 +3,7 @@ package com.objective_platform.campaign.infrastructure.config;
 import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.application.usecases.CreateCampaignCommandHandler;
 import com.objective_platform.campaign.application.usecases.DeleteCampaignCommandHandler;
+import com.objective_platform.campaign.application.usecases.UpdateCampaignCommandHandler;
 import com.objective_platform.campaign.infrastructure.persistence.SqlCampaignRepository;
 import com.objective_platform.campaign.infrastructure.persistence.mappers.CampaignMapper;
 import jakarta.persistence.EntityManager;
@@ -30,5 +31,10 @@ public class CampaignConfiguration {
     @Bean
     public DeleteCampaignCommandHandler deleteCampaignCommandHandler(CampaignRepository campaignRepository) {
         return new DeleteCampaignCommandHandler(campaignRepository);
+    }
+
+    @Bean
+    public UpdateCampaignCommandHandler updateCampaignCommandHandler(CampaignRepository campaignRepository) {
+        return new UpdateCampaignCommandHandler(campaignRepository);
     }
 }

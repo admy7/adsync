@@ -9,7 +9,7 @@ public interface CampaignRepository {
 
     void save(Campaign campaign);
 
-    void clear();
-
     void delete(String id);
+
+    void clear();
 }

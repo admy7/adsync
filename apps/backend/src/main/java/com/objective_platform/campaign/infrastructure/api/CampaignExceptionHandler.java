@@ -2,7 +2,7 @@ package com.objective_platform.campaign.infrastructure.api;
 
 import com.objective_platform.campaign.domain.exceptions.InvalidCampaignPeriodException;
 import com.objective_platform.campaign.domain.models.exceptions.CampaignNotFoundException;
-import com.objective_platform.core.infrastructure.api.ErrorResponse;
+import com.objective_platform.core.infrastructure.api.errors.ErrorResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

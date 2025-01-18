@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(OpCaseStudyTestConfiguration.class)
-public class DeleteCampaignCommandE2ETest {
+public class DeleteCampaignE2ETest {
 
     @Autowired
     private MockMvc mockMvc;

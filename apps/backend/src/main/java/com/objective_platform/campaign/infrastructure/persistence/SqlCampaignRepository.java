@@ -27,16 +27,17 @@ public class SqlCampaignRepository implements CampaignRepository {
     @Override
     public void save(Campaign campaign) {
         SqlCampaign sqlCampaign = mapper.toSql(campaign);
-        entityManager.persist(sqlCampaign);
-    }
 
-    @Override
-    public void clear() {
-        entityManager.createQuery("DELETE FROM SqlCampaign").executeUpdate();
+        entityManager.merge(sqlCampaign);
     }
 
     @Override
     public void delete(String id) {
         entityManager.remove(entityManager.find(SqlCampaign.class, id));
+    }
+
+    @Override
+    public void clear() {
+        entityManager.createQuery("DELETE FROM SqlCampaign").executeUpdate();
     }
 }
