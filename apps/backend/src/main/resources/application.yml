@@ -21,6 +21,10 @@ application:
         cors:
             origins: http://localhost:5173
 
+jwt:
+    expiration: 60
+    secret-key: "jwt-secret-key-string-test-1234567890"
+
 server:
     servlet:
         context-path: /api/v1/
