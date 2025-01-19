@@ -11,9 +11,9 @@ import java.util.Date;
 public class JwtServiceImpl implements JwtService {
     private SecretKey secretKey;
 
-    private long expiration;
+    private int expiration;
 
-    public JwtServiceImpl(String secretKey, long expiration) {
+    public JwtServiceImpl(String secretKey, int expiration) {
         this.secretKey = Keys.hmacShaKeyFor(secretKey.getBytes());
         this.expiration = expiration;
     }
@@ -43,5 +43,9 @@ public class JwtServiceImpl implements JwtService {
         var email = claims.get("email", String.class);
 
         return new AuthUser(id, email);
+    }
+
+    public double expiresIn() {
+        return expiration;
     }
 }

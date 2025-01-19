@@ -1,4 +1,4 @@
-package com.objective_platform.auth.application.infrastructure.api;
+package com.objective_platform.auth.infrastructure.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.objective_platform.OpCaseStudyTestConfiguration;

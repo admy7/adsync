@@ -1,14 +1,14 @@
 package com.objective_platform.auth.infrastructure.config;
 
 import com.objective_platform.auth.application.ports.UserRepository;
+import com.objective_platform.auth.application.services.BCryptPasswordHasher;
 import com.objective_platform.auth.application.services.JwtService;
 import com.objective_platform.auth.application.services.JwtServiceImpl;
-import com.objective_platform.auth.application.usecases.CreateUserCommandHandler;
-import com.objective_platform.auth.infrastructure.persistence.SqlUserRepository;
-import com.objective_platform.auth.application.services.BCryptPasswordHasher;
 import com.objective_platform.auth.application.services.PasswordHasher;
+import com.objective_platform.auth.application.usecases.CreateUserCommandHandler;
+import com.objective_platform.auth.application.usecases.LoginCommandHandler;
+import com.objective_platform.auth.infrastructure.persistence.SqlUserRepository;
 import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,12 +26,17 @@ public class AuthConfiguration {
     }
 
     @Bean
-    public JwtService jwtService(@Value("${jwt.secret}") String secret, @Value("${jwt.expiration}") int expiration) {
-        return new JwtServiceImpl(secret, expiration);
+    public JwtService jwtService(JwtPropertiesConfiguration jwtProperties) {
+        return new JwtServiceImpl(jwtProperties.secretKey(), jwtProperties.expiration());
     }
 
     @Bean
     public CreateUserCommandHandler createUserCommandHandler(UserRepository userRepository, PasswordHasher passwordHasher) {
         return new CreateUserCommandHandler(userRepository, passwordHasher);
+    }
+
+    @Bean
+    public LoginCommandHandler loginCommandHandler(UserRepository userRepository, JwtService jwtService, PasswordHasher passwordHasher) {
+        return new LoginCommandHandler(userRepository, jwtService, passwordHasher);
     }
 }

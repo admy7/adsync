@@ -2,7 +2,10 @@ package com.objective_platform.auth.infrastructure.api;
 
 import an.awesome.pipelinr.Pipeline;
 import com.objective_platform.auth.application.usecases.CreateUserCommand;
+import com.objective_platform.auth.application.usecases.LoginCommand;
+import com.objective_platform.auth.domain.viewmodels.TokenResponse;
 import com.objective_platform.auth.infrastructure.api.dto.CreateUserDTO;
+import com.objective_platform.auth.infrastructure.api.dto.LogInDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +31,14 @@ public class UserController {
         pipeline.send(command);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> logIn(@Valid @RequestBody LogInDTO dto) {
+        var command = new LoginCommand(dto.email(), dto.password());
+
+        TokenResponse response = pipeline.send(command);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
