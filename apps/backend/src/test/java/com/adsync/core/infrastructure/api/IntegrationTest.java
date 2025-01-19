@@ -1,11 +1,10 @@
 package com.adsync.core.infrastructure.api;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.adsync.AdSyncTestConfiguration;
 import com.adsync.auth.application.ports.UserRepository;
 import com.adsync.auth.application.services.jwt.JwtService;
 import com.adsync.auth.domain.models.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,26 +16,22 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import(AdSyncTestConfiguration.class)
 public class IntegrationTest {
 
-    @Autowired
-    protected MockMvc mockMvc;
+  @Autowired protected MockMvc mockMvc;
 
-    @Autowired
-    protected ObjectMapper objectMapper;
+  @Autowired protected ObjectMapper objectMapper;
 
-    @Autowired
-    protected JwtService jwtService;
+  @Autowired protected JwtService jwtService;
 
-    @Autowired
-    protected UserRepository userRepository;
+  @Autowired protected UserRepository userRepository;
 
-    protected String createJwt(User user) {
-        return "Bearer " + jwtService.tokenize(user);
-    }
+  protected String createJwt(User user) {
+    return "Bearer " + jwtService.tokenize(user);
+  }
 
-    protected User createAndSaveUser(String id, String username, String password) {
-        var user = new User(id, username, password);
-        userRepository.save(user);
+  protected User createAndSaveUser(String id, String username, String password) {
+    var user = new User(id, username, password);
+    userRepository.save(user);
 
-        return user;
-    }
+    return user;
+  }
 }

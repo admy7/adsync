@@ -1,0 +1,95 @@
+name: Build backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "corretto"
+
+      - name: Start Docker Service
+        run: sudo service docker start
+
+      - name: Run tests
+        run: |
+          cd apps/backend
+          ./mvnw clean test
+
+  format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "corretto"
+
+      - name: Run Spotless check
+        run: |
+          cd apps/backend
+          ./mvnw spotless:check
+
+  build:
+    needs:
+      - format
+      - test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "corretto"
+
+      - name: Extract project version
+        id: version
+        run: |
+          cd apps/backend
+          echo "VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+          echo "::set-output name=VERSION::$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)"
+
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/backend
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/adsync-backend:${{ steps.version.outputs.VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/adsync-backend:latest

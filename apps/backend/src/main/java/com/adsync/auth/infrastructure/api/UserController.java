@@ -18,27 +18,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class UserController {
 
-    private final Pipeline pipeline;
+  private final Pipeline pipeline;
 
-    public UserController(Pipeline pipeline) {
-        this.pipeline = pipeline;
-    }
+  public UserController(Pipeline pipeline) {
+    this.pipeline = pipeline;
+  }
 
-    @PostMapping("/register")
-    public ResponseEntity<Void> createUser(@Valid @RequestBody CreateUserDTO dto) {
-        CreateUserCommand command = new CreateUserCommand(dto.email(), dto.password());
+  @PostMapping("/register")
+  public ResponseEntity<Void> createUser(@Valid @RequestBody CreateUserDTO dto) {
+    CreateUserCommand command = new CreateUserCommand(dto.email(), dto.password());
 
-        pipeline.send(command);
+    pipeline.send(command);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+    return new ResponseEntity<>(HttpStatus.CREATED);
+  }
 
-    @PostMapping("/login")
-    public ResponseEntity<TokenResponse> logIn(@Valid @RequestBody LogInDTO dto) {
-        var command = new LoginCommand(dto.email(), dto.password());
+  @PostMapping("/login")
+  public ResponseEntity<TokenResponse> logIn(@Valid @RequestBody LogInDTO dto) {
+    var command = new LoginCommand(dto.email(), dto.password());
 
-        TokenResponse response = pipeline.send(command);
+    TokenResponse response = pipeline.send(command);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
 }

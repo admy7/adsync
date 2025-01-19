@@ -13,9 +13,9 @@ RUN mvn clean package -DskipTests
 FROM amazoncorretto:21
 
 WORKDIR /app
-COPY --from=build /build/target/backend-*.jar /app
+COPY --from=build /build/target/adsync-backend-*.jar /app
 
-RUN JAR_FILE=$(ls /app/backend-*.jar) && \
+RUN JAR_FILE=$(ls /app/adsync-backend-*.jar) && \
     ln -s $JAR_FILE /app/app.jar
 
 EXPOSE 8080
