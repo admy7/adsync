@@ -1,19 +1,14 @@
 package com.objective_platform.campaign.infrastructure.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.objective_platform.OpCaseStudyTestConfiguration;
 import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.domain.models.Campaign;
 import com.objective_platform.campaign.domain.models.Channel;
 import com.objective_platform.campaign.domain.models.Period;
 import com.objective_platform.campaign.infrastructure.api.dto.UpdateCampaignDTO;
+import com.objective_platform.core.infrastructure.api.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.shaded.com.github.dockerjava.core.MediaType;
@@ -22,16 +17,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(OpCaseStudyTestConfiguration.class)
-public class UpdateCampaignE2ETest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+public class UpdateCampaignE2ETest extends IntegrationTest {
 
     @Autowired
     private CampaignRepository campaignRepository;
@@ -52,13 +38,16 @@ public class UpdateCampaignE2ETest {
 
     @Test
     void updateCampaign() throws Exception {
+        var user = createAndSaveUser("1", "user", "password");
+
         var dto = new UpdateCampaignDTO(Channel.TV, 10_000d, "2025-01-01T08:00:00", "2025-05-01T08:00:00");
 
         mockMvc
                 .perform(
                         MockMvcRequestBuilders.patch("/campaigns/5")
                                 .contentType(MediaType.APPLICATION_JSON.getMediaType())
-                                .content(objectMapper.writeValueAsString(dto)))
+                                .content(objectMapper.writeValueAsString(dto))
+                                .header("Authorization", createJwt(user)))
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
                 .andReturn();
 
@@ -72,13 +61,16 @@ public class UpdateCampaignE2ETest {
 
     @Test
     void updatePartiallyCampaign() throws Exception {
+        var user = createAndSaveUser("1", "user", "password");
+
         var dto = new UpdateCampaignDTO(null, 25_000d, null, "2025-05-01T08:00:00");
 
         mockMvc
                 .perform(
                         MockMvcRequestBuilders.patch("/campaigns/5")
                                 .contentType(MediaType.APPLICATION_JSON.getMediaType())
-                                .content(objectMapper.writeValueAsString(dto)))
+                                .content(objectMapper.writeValueAsString(dto))
+                                .header("Authorization", createJwt(user)))
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
                 .andReturn();
 

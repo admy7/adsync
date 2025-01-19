@@ -1,37 +1,18 @@
 package com.objective_platform.auth.infrastructure.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.objective_platform.OpCaseStudyTestConfiguration;
-import com.objective_platform.auth.application.ports.UserRepository;
 import com.objective_platform.auth.application.services.PasswordHasher;
-import com.objective_platform.auth.domain.models.User;
 import com.objective_platform.auth.infrastructure.api.dto.CreateUserDTO;
+import com.objective_platform.core.infrastructure.api.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.shaded.com.github.dockerjava.core.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(OpCaseStudyTestConfiguration.class)
-public class CreateUserE2ETest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private UserRepository userRepository;
+public class CreateUserE2ETest extends IntegrationTest {
 
     @Autowired
     private PasswordHasher passwordHasher;
@@ -60,8 +41,7 @@ public class CreateUserE2ETest {
 
     @Test
     void createUserWithUnavailableEmail_SendBadRequest() throws Exception {
-        User user = new User("1", "user@gmail.com", "password");
-        userRepository.save(user);
+        createAndSaveUser("1", "user@gmail.com", "password");
 
         var dto = new CreateUserDTO("user@gmail.com", "password");
 

@@ -1,19 +1,14 @@
 package com.objective_platform.campaign.infrastructure.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.objective_platform.OpCaseStudyTestConfiguration;
 import com.objective_platform.campaign.application.ports.CampaignRepository;
 import com.objective_platform.campaign.domain.models.Campaign;
 import com.objective_platform.campaign.domain.models.Channel;
 import com.objective_platform.campaign.domain.models.Period;
 import com.objective_platform.campaign.domain.viewmodels.CampaignViewModel;
+import com.objective_platform.core.infrastructure.api.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -21,19 +16,10 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(OpCaseStudyTestConfiguration.class)
-public class GetCampaignByIdE2ETest {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class GetCampaignByIdE2ETest extends IntegrationTest {
 
     @Autowired
     private CampaignRepository campaignRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -47,13 +33,16 @@ public class GetCampaignByIdE2ETest {
 
     @Test
     void getCampaignById() throws Exception {
+        var user = createAndSaveUser("1", "user", "password");
+
         var response = mockMvc
                 .perform(
-                        MockMvcRequestBuilders.get("/campaigns/7"))
+                        MockMvcRequestBuilders.get("/campaigns/7")
+                                .header("Authorization", createJwt(user)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        CampaignViewModel campaign = objectMapper.readValue(response.getResponse().getContentAsString(), CampaignViewModel.class);
+        var campaign = objectMapper.readValue(response.getResponse().getContentAsString(), CampaignViewModel.class);
 
         assertThat(campaign.id()).isEqualTo("7");
     }

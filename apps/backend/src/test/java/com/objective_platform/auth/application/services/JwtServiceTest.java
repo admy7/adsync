@@ -12,7 +12,7 @@ public class JwtServiceTest {
     void tokenizeUser() {
         JwtService service = new JwtServiceImpl("secret-key-for-jwt-test-very-long", 60);
 
-        User user = new User("1", "user@gmail.com", "password");
+        var user = new User("1", "user@gmail.com", "password");
 
         String token = service.tokenize(user);
         AuthUser authUser = service.parse(token);

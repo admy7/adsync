@@ -4,7 +4,6 @@ import com.objective_platform.auth.domain.exceptions.EmailAlreadyTakenException;
 import com.objective_platform.auth.domain.exceptions.IncorrectPasswordException;
 import com.objective_platform.auth.domain.exceptions.UserDoesNotExistException;
 import com.objective_platform.core.infrastructure.api.errors.ErrorResponse;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
