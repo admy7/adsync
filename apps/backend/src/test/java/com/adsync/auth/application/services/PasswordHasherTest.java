@@ -1,5 +1,7 @@
 package com.adsync.auth.application.services;
 
+import com.adsync.auth.application.services.hasher.BCryptPasswordHasher;
+import com.adsync.auth.application.services.hasher.PasswordHasher;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

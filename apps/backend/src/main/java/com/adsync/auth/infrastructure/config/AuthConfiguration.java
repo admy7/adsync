@@ -1,10 +1,10 @@
 package com.adsync.auth.infrastructure.config;
 
 import com.adsync.auth.application.ports.UserRepository;
-import com.adsync.auth.application.services.BCryptPasswordHasher;
-import com.adsync.auth.application.services.JwtService;
-import com.adsync.auth.application.services.JwtServiceImpl;
-import com.adsync.auth.application.services.PasswordHasher;
+import com.adsync.auth.application.services.hasher.BCryptPasswordHasher;
+import com.adsync.auth.application.services.jwt.JwtService;
+import com.adsync.auth.application.services.jwt.JwtServiceImpl;
+import com.adsync.auth.application.services.hasher.PasswordHasher;
 import com.adsync.auth.application.usecases.CreateUserCommandHandler;
 import com.adsync.auth.application.usecases.LoginCommandHandler;
 import com.adsync.auth.infrastructure.persistence.SqlUserRepository;

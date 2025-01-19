@@ -1,4 +1,4 @@
-package com.adsync.auth.application.services;
+package com.adsync.auth.application.services.jwt;
 
 import com.adsync.auth.domain.models.AuthUser;
 import com.adsync.auth.domain.models.User;
@@ -43,9 +43,5 @@ public class JwtServiceImpl implements JwtService {
         var email = claims.get("email", String.class);
 
         return new AuthUser(id, email);
-    }
-
-    public double expiresIn() {
-        return expiration;
     }
 }

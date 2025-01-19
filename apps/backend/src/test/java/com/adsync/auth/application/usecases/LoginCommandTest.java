@@ -1,10 +1,10 @@
 package com.adsync.auth.application.usecases;
 
 import com.adsync.auth.application.ports.UserRepository;
-import com.adsync.auth.application.services.BCryptPasswordHasher;
-import com.adsync.auth.application.services.JwtService;
-import com.adsync.auth.application.services.JwtServiceImpl;
-import com.adsync.auth.application.services.PasswordHasher;
+import com.adsync.auth.application.services.hasher.BCryptPasswordHasher;
+import com.adsync.auth.application.services.jwt.JwtService;
+import com.adsync.auth.application.services.jwt.JwtServiceImpl;
+import com.adsync.auth.application.services.hasher.PasswordHasher;
 import com.adsync.auth.domain.exceptions.IncorrectPasswordException;
 import com.adsync.auth.domain.exceptions.UserDoesNotExistException;
 import com.adsync.auth.domain.models.AuthUser;

@@ -1,4 +1,4 @@
-package com.adsync.auth.application.services;
+package com.adsync.auth.application.services.hasher;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

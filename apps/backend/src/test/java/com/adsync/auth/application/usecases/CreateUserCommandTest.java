@@ -4,7 +4,7 @@ import com.adsync.auth.application.ports.UserRepository;
 import com.adsync.auth.domain.exceptions.EmailAlreadyTakenException;
 import com.adsync.auth.domain.models.User;
 import com.adsync.auth.infrastructure.persistence.InMemoryUserRepository;
-import com.adsync.auth.application.services.BCryptPasswordHasher;
+import com.adsync.auth.application.services.hasher.BCryptPasswordHasher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

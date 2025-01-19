@@ -4,7 +4,7 @@ package com.adsync.core.infrastructure.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.adsync.AdSyncTestConfiguration;
 import com.adsync.auth.application.ports.UserRepository;
-import com.adsync.auth.application.services.JwtService;
+import com.adsync.auth.application.services.jwt.JwtService;
 import com.adsync.auth.domain.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

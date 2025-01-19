@@ -1,6 +1,6 @@
 package com.adsync.auth.infrastructure.config;
 
-import com.adsync.auth.application.services.JwtService;
+import com.adsync.auth.application.services.jwt.JwtService;
 import com.adsync.auth.domain.models.AuthUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

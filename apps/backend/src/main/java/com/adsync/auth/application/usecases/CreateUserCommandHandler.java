@@ -5,7 +5,7 @@ import an.awesome.pipelinr.Voidy;
 import com.adsync.auth.application.ports.UserRepository;
 import com.adsync.auth.domain.exceptions.EmailAlreadyTakenException;
 import com.adsync.auth.domain.models.User;
-import com.adsync.auth.application.services.PasswordHasher;
+import com.adsync.auth.application.services.hasher.PasswordHasher;
 
 import java.util.UUID;
 

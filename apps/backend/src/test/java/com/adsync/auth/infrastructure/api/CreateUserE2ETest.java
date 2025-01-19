@@ -1,6 +1,6 @@
 package com.adsync.auth.infrastructure.api;
 
-import com.adsync.auth.application.services.PasswordHasher;
+import com.adsync.auth.application.services.hasher.PasswordHasher;
 import com.adsync.auth.infrastructure.api.dto.CreateUserDTO;
 import com.adsync.core.infrastructure.api.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;

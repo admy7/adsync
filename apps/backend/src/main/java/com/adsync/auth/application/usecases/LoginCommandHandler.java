@@ -2,8 +2,8 @@ package com.adsync.auth.application.usecases;
 
 import an.awesome.pipelinr.Command;
 import com.adsync.auth.application.ports.UserRepository;
-import com.adsync.auth.application.services.JwtService;
-import com.adsync.auth.application.services.PasswordHasher;
+import com.adsync.auth.application.services.jwt.JwtService;
+import com.adsync.auth.application.services.hasher.PasswordHasher;
 import com.adsync.auth.domain.exceptions.IncorrectPasswordException;
 import com.adsync.auth.domain.exceptions.UserDoesNotExistException;
 import com.adsync.auth.domain.models.User;

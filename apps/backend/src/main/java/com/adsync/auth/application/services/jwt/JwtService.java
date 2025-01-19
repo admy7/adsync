@@ -1,4 +1,4 @@
-package com.adsync.auth.application.services;
+package com.adsync.auth.application.services.jwt;
 
 import com.adsync.auth.domain.models.AuthUser;
 import com.adsync.auth.domain.models.User;

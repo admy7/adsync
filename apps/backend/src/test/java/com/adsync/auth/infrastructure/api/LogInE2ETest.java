@@ -1,6 +1,6 @@
 package com.adsync.auth.infrastructure.api;
 
-import com.adsync.auth.application.services.PasswordHasher;
+import com.adsync.auth.application.services.hasher.PasswordHasher;
 import com.adsync.auth.domain.models.AuthUser;
 import com.adsync.auth.domain.viewmodels.TokenResponse;
 import com.adsync.auth.infrastructure.api.dto.LogInDTO;

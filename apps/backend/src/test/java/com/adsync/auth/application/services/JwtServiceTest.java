@@ -1,5 +1,7 @@
 package com.adsync.auth.application.services;
 
+import com.adsync.auth.application.services.jwt.JwtService;
+import com.adsync.auth.application.services.jwt.JwtServiceImpl;
 import com.adsync.auth.domain.models.AuthUser;
 import com.adsync.auth.domain.models.User;
 import org.junit.jupiter.api.Test;
