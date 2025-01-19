@@ -11,8 +11,8 @@
 	<groupId>com.adsync</groupId>
 	<artifactId>adsync-backend</artifactId>
 	<version>0.0.1</version>
-	<name>AdSync</name>
-	<description>AdSync: sync all your ads</description>
+	<name>adsync-backend</name>
+	<description>adsync-backend</description>
 	<url/>
 	<licenses>
 		<license/>
