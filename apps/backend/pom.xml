@@ -8,11 +8,11 @@
 		<version>3.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.objective-platform</groupId>
-	<artifactId>backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>OP-Case-Study</name>
-	<description>OP Case Study</description>
+	<groupId>com.adsync</groupId>
+	<artifactId>adsync-backend</artifactId>
+	<version>0.0.1</version>
+	<name>AdSync</name>
+	<description>AdSync: sync all your ads</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -1,6 +1,6 @@
 spring:
     application:
-        name: OP-Case-Study
+        name: AdSync
     datasource:
         url: jdbc:postgresql://localhost:5432/db
         username: user
