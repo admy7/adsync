@@ -7,8 +7,9 @@ paths:
   /api/v1/campaigns:
     post:
       summary: Create a new campaign
+      operationId: createCampaign
       security:
-        - BearerAuth: [ ]
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -28,8 +29,9 @@ paths:
           description: Unauthorized
     get:
       summary: Retrieve all campaigns
+      operationId: getAllCampaigns
       security:
-        - BearerAuth: [ ]
+        - BearerAuth: []
       responses:
         '200':
           description: List of all campaigns
@@ -42,8 +44,9 @@ paths:
   /api/v1/campaigns/{id}:
     get:
       summary: Retrieve a campaign by ID
+      operationId: getCampaign
       security:
-        - BearerAuth: [ ]
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
@@ -64,8 +67,9 @@ paths:
           description: Campaign not found
     patch:
       summary: Update a campaign by ID
+      operationId: updateCampaign
       security:
-        - BearerAuth: [ ]
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
@@ -90,8 +94,9 @@ paths:
           description: Campaign not found
     delete:
       summary: Delete a campaign by ID
+      operationId: deleteCampaign
       security:
-        - BearerAuth: [ ]
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
@@ -109,6 +114,7 @@ paths:
   /api/v1/auth/register:
     post:
       summary: Register a new user
+      operationId: registerUser
       requestBody:
         required: true
         content:
@@ -123,6 +129,7 @@ paths:
   /api/v1/auth/login:
     post:
       summary: Login and receive a JWT
+      operationId: loginUser
       requestBody:
         required: true
         content:
@@ -156,9 +163,9 @@ components:
       type: object
       properties:
         channel:
-            $ref: '#/components/schemas/Channel'
+          $ref: '#/components/schemas/Channel'
         budget:
-            type: number
+          type: number
         startDate:
           type: string
           format: date

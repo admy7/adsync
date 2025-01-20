@@ -22,7 +22,6 @@ public class SecurityConfiguration {
         .formLogin(it -> it.disable())
         .httpBasic(it -> it.disable())
         .csrf(it -> it.disable())
-        .cors(it -> it.disable())
         .sessionManagement(it -> it.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
     return http.build();
