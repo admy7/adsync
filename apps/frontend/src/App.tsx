@@ -1,5 +1,14 @@
-function App() {
-  return <h1>Marketing Dashboard 📊</h1>;
-}
+import { Navbar } from "./components/Navbar.tsx";
+import { Footer } from "./components/Footer.tsx";
 
-export default App;
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
+        <div />
+      </main>
+      <Footer />
+    </div>
+  );
+}export default App;
