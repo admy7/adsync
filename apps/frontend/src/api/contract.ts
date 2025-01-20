@@ -43,8 +43,7 @@ const CampaignViewModel: z.ZodType<CampaignViewModel> = z
   })
   .partial()
   .passthrough();
-const GetAllCampaignsDTO: z.ZodType<GetAllCampaignsDTO> =
-  z.array(CampaignViewModel);
+const GetAllCampaignsDTO: z.ZodType<GetAllCampaignsDTO> = z.array(CampaignViewModel);
 const UpdateCampaignDTO: z.ZodType<UpdateCampaignDTO> = z
   .object({
     channel: Channel,
@@ -54,12 +53,8 @@ const UpdateCampaignDTO: z.ZodType<UpdateCampaignDTO> = z
   })
   .partial()
   .passthrough();
-const CreateUserDTO = z
-  .object({ email: z.string(), password: z.string() })
-  .passthrough();
-const LogInDTO = z
-  .object({ email: z.string(), password: z.string() })
-  .passthrough();
+const CreateUserDTO = z.object({ email: z.string(), password: z.string() }).passthrough();
+const LogInDTO = z.object({ email: z.string(), password: z.string() }).passthrough();
 const TokenResponse = z.object({ token: z.string() }).partial().passthrough();
 
 export const schemas = {

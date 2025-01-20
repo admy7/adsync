@@ -1,3 +1,5 @@
-import {createApiClient} from "./contract.ts";
+import { createApiClient } from "./contract.ts";
 
-export const api = createApiClient(VITE_BACKEND_URL);
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+export const client = createApiClient(BACKEND_URL);
