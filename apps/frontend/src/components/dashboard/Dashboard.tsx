@@ -1,17 +1,5 @@
 import React, { useEffect } from "react";
-import { eachDayOfInterval, format, parseISO } from "date-fns";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { format } from "date-fns";
 import { CampaignModal } from "./CampaignModal.tsx";
 import { BarChart3, Check, ChevronDown, ChevronUp, Pencil, PlusCircle, Search, Trash2, TrendingUp } from "lucide-react";
 import { CampaignViewModel as Campaign } from "../../api/contract.ts";
@@ -19,12 +7,13 @@ import { client } from "../../api";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions, Transition } from "@headlessui/react";
 import { CampaignKeyFigures } from "./CampaignKeyFigures.tsx";
 import { ChannelBarChart } from "./ChannelBarChart.tsx";
+import { CampaignTimelineChart } from "./CampaignTimelineChart.tsx";
 
 export type CampaignFormData = Omit<Campaign, "id">;
 type SortField = "name" | "channel" | "budget" | "start" | "end";
 type SortDirection = "asc" | "desc";
 
-interface FilterOption {
+type FilterOption = {
   value: string;
   label: string;
 }
@@ -113,19 +102,16 @@ export const Dashboard: React.FC = () => {
     const sortedAndFilteredCampaigns = React.useMemo(() => {
       let filtered = campaigns;
 
-      // Apply search filter
       if (searchTerm) {
         filtered = filtered.filter(campaign =>
           campaign.name.toLowerCase().includes(searchTerm.toLowerCase()),
         );
       }
 
-      // Apply channel filter
       if (selectedChannel.value !== "all") {
         filtered = filtered.filter(campaign => campaign.channel === selectedChannel.value);
       }
 
-      // Apply sorting
       return [...filtered].sort((a, b) => {
         const aValue = a[sortField];
         const bValue = b[sortField];
@@ -143,67 +129,7 @@ export const Dashboard: React.FC = () => {
         return 0;
       });
     }, [campaigns, sortField, sortDirection, searchTerm, selectedChannel]);
-    const totalBudget = campaigns.reduce((sum, campaign) => sum + campaign.budget, 0);
 
-
-    const timelineData = React.useMemo(() => {
-      if (campaigns.length === 0) return [];
-
-      // Find the date range for all campaigns
-      const startDates = campaigns.map(c => parseISO(c.start));
-      const endDates = campaigns.map(c => parseISO(c.end));
-      const minDate = new Date(Math.min(...startDates.map(d => d.getTime())));
-      const maxDate = new Date(Math.max(...endDates.map(d => d.getTime())));
-
-      // Generate array of dates between min and max
-      const dates = eachDayOfInterval({ start: minDate, end: maxDate });
-
-      // Create data points for each date
-      return dates.map(date => {
-        const dataPoint: any = {
-          date: format(date, "yyyy-MM-dd"),
-          total: 0,
-        };
-
-        // Calculate budget for each campaign on this date
-        campaigns.forEach(campaign => {
-          const campaignStart = parseISO(campaign.start);
-          const campaignEnd = parseISO(campaign.end);
-          //
-          if (date >= campaignStart && date <= campaignEnd) {
-            //   // Calculate daily budget (total budget divided by campaign duration)
-            //   const duration = Math.ceil((campaignEnd.getTime() - campaignStart.getTime()) / (1000 * 60 * 60 * 24));
-            //   const dailyBudget = campaign.budget / duration;
-
-            dataPoint[campaign.name] = campaign.budget;
-            dataPoint.total += campaign.budget;
-          } else {
-            dataPoint[campaign.name] = 0;
-          }
-        });
-
-        return dataPoint;
-      });
-    }, [campaigns]);
-
-    // Generate unique colors for each campaign
-    const campaignColors = React.useMemo(() => {
-      const colors = [
-        "#4f46e5", // indigo
-        "#06b6d4", // cyan
-        "#10b981", // emerald
-        "#f59e0b", // amber
-        "#ef4444", // red
-        "#8b5cf6", // violet
-        "#ec4899", // pink
-        "#f97316", // orange
-      ];
-
-      return campaigns.reduce((acc, campaign, index) => ({
-        ...acc,
-        [campaign.name]: colors[index % colors.length],
-      }), {});
-    }, [campaigns]);
 
     const SortIcon = ({ field }: { field: SortField }) => {
       if (sortField !== field) return null;
@@ -242,59 +168,10 @@ export const Dashboard: React.FC = () => {
           </div>
         ) : (
           <>
-            <CampaignKeyFigures campaigns={campaigns} totalBudget={totalBudget} />
+            <CampaignKeyFigures campaigns={campaigns} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <ChannelBarChart campaigns={campaigns} />
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
-                  Campaign Timeline
-                </h3>
-                <div className="h-96">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                      data={timelineData}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis
-                        dataKey="date"
-                        tickFormatter={(date) => format(parseISO(date), "MMM yy")}
-                      />
-                      <YAxis
-                        tickFormatter={(value) => `${value.toLocaleString()}€`}
-                      />
-                      <Tooltip
-                        formatter={(value: number) => [`${value.toLocaleString()}€`, ""]}
-                        labelFormatter={(label) => format(parseISO(label as string), "MMM d, yyyy")}
-                      />
-                      <Legend />
-                      {campaigns.map((campaign) => (
-                        <Line
-                          key={campaign.id}
-                          type="monotone"
-                          dataKey={campaign.name}
-                          stroke={campaignColors[campaign.name]}
-                          strokeWidth={2}
-                          dot={false}
-                        />
-                      ))}
-                      <Line
-                        type="monotone"
-                        dataKey="total"
-                        stroke="#000000"
-                        strokeWidth={3}
-                        dot={false}
-                        name="Total Budget"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
+              <CampaignTimelineChart campaigns={campaigns} />
             </div>
 
             <div className="bg-white shadow rounded-lg overflow-hidden">
