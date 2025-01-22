@@ -10,7 +10,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { Check, ChevronDown } from "lucide-react";
-import { Channel } from "../api/contract.ts";
+import { Channel } from "../../api/contract.ts";
 import { CampaignFormData } from "./Dashboard.tsx";
 import { format } from "date-fns";
 
