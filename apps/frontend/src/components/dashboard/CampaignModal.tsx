@@ -41,6 +41,7 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({
       end: "",
     },
   );
+  const [error, setError] = React.useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -51,14 +52,21 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({
           budget: 0,
           start: "",
           end: "",
-        }
+        },
       );
     }
   }, [isOpen, initialData]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (new Date(formData.start) > new Date(formData.end)) {
+      setError("End date must be after start date");
+      return;
+    }
+
     onSubmit(formData);
+    setError(null);
     onClose();
   };
 
@@ -215,6 +223,7 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({
                           budget: e.target.value ? Number(e.target.value) : 0,
                         })
                       }
+                      required
                       placeholder="Enter budget amount"
                     />
                   </div>
@@ -226,13 +235,14 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({
                     <input
                       type="date"
                       className={inputClassName}
-                      value={formData.start ? format(new Date(formData.start), "yyyy-MM-dd"): ""}
+                      value={formData.start ? format(new Date(formData.start), "yyyy-MM-dd") : ""}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          start: e.target.value
+                          start: e.target.value,
                         })
                       }
+                      required
                     />
                   </div>
 
@@ -243,15 +253,18 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({
                     <input
                       type="date"
                       className={inputClassName}
-                      value={formData.end ? format(new Date(formData.end), "yyyy-MM-dd"): ""}
+                      value={formData.end ? format(new Date(formData.end), "yyyy-MM-dd") : ""}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
                           end: e.target.value,
                         })
                       }
+                      required
                     />
                   </div>
+                  {error && (
+                    <div className="text-red-500 text-sm">{error}</div>)}
                 </div>
 
                 <div className="mt-8 flex justify-end space-x-3">
@@ -275,5 +288,6 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({
         </div>
       </Dialog>
     </Transition>
-  );
+  )
+    ;
 };

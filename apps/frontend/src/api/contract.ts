@@ -29,9 +29,10 @@ export type CampaignViewModel = {
     end: string;
 };;
 
-export const Channel = z.string();
+const Channel = z.string();
 const CreateCampaignDTO: z.ZodType<CreateCampaignDTO> = z.object({ name: z.string(), channel: Channel, budget: z.number(), start: z.string(), end: z.string() }).passthrough();
 const IdResponse = z.object({ id: z.string().uuid() }).partial().passthrough();
+const ErrorResponse = z.object({ status: z.number(), message: z.string() }).passthrough();
 const CampaignViewModel: z.ZodType<CampaignViewModel> = z.object({ id: z.string().uuid(), name: z.string(), channel: Channel, budget: z.number(), start: z.string(), end: z.string() }).passthrough();
 const GetAllCampaignsDTO: z.ZodType<GetAllCampaignsDTO> = z.object({ count: z.unknown(), campaigns: z.array(CampaignViewModel) }).partial().passthrough();
 const UpdateCampaignDTO: z.ZodType<UpdateCampaignDTO> = z.object({ name: z.string(), channel: Channel, budget: z.number(), start: z.string(), end: z.string() }).partial().passthrough();
@@ -43,6 +44,7 @@ export const schemas = {
 	Channel,
 	CreateCampaignDTO,
 	IdResponse,
+	ErrorResponse,
 	CampaignViewModel,
 	GetAllCampaignsDTO,
 	UpdateCampaignDTO,
@@ -69,7 +71,7 @@ const endpoints = makeApi([
 			{
 				status: 400,
 				description: `Bad request`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 		]
 	},
@@ -90,7 +92,7 @@ const endpoints = makeApi([
 			{
 				status: 400,
 				description: `Bad request`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 		]
 	},
@@ -111,12 +113,12 @@ const endpoints = makeApi([
 			{
 				status: 400,
 				description: `Bad request`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 			{
 				status: 401,
 				description: `Unauthorized`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 		]
 	},
@@ -130,7 +132,7 @@ const endpoints = makeApi([
 			{
 				status: 401,
 				description: `Unauthorized`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 		]
 	},
@@ -151,12 +153,12 @@ const endpoints = makeApi([
 			{
 				status: 401,
 				description: `Unauthorized`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 			{
 				status: 404,
 				description: `Campaign not found`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 		]
 	},
@@ -182,17 +184,17 @@ const endpoints = makeApi([
 			{
 				status: 400,
 				description: `Bad request`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 			{
 				status: 401,
 				description: `Unauthorized`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 			{
 				status: 404,
 				description: `Campaign not found`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 		]
 	},
@@ -213,12 +215,12 @@ const endpoints = makeApi([
 			{
 				status: 401,
 				description: `Unauthorized`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 			{
 				status: 404,
 				description: `Campaign not found`,
-				schema: z.void()
+				schema: ErrorResponse
 			},
 		]
 	},

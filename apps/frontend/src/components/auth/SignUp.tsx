@@ -1,8 +1,9 @@
 import React from "react";
 import { Lock, Mail } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthLayout } from "./AuthLayout";
 import { client } from "../../api";
+import { AxiosError } from "axios";
 
 export const SignUp: React.FC = () => {
   const [formData, setFormData] = React.useState({
@@ -10,6 +11,8 @@ export const SignUp: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = React.useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -18,7 +21,17 @@ export const SignUp: React.FC = () => {
         alert("Passwords do not match");
         return;
       }
-      await client.registerUser({ email: formData.email, password: formData.password });
+      try {
+        await client.registerUser({ email: formData.email, password: formData.password });
+        navigate("/signin");
+        setError(null);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          setError(error.response?.data?.message || "An error occurred");
+        } else {
+          setError("An error occurred");
+        }
+      }
     }
   ;
 
@@ -101,6 +114,12 @@ export const SignUp: React.FC = () => {
             />
           </div>
         </div>
+
+        {error && (
+          <div className="text-red-500 text-sm">
+            {error}
+          </div>
+        )}
 
         <div>
           <button

@@ -25,8 +25,16 @@ paths:
                 $ref: '#/components/schemas/IdResponse'
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     get:
       summary: Retrieve all campaigns
       operationId: getAllCampaigns
@@ -41,6 +49,10 @@ paths:
                 $ref: '#/components/schemas/GetAllCampaignsDTO'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/campaigns/{id}:
     get:
       summary: Retrieve a campaign by ID
@@ -63,8 +75,16 @@ paths:
                 $ref: '#/components/schemas/CampaignViewModel'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     patch:
       summary: Update a campaign by ID
       operationId: updateCampaign
@@ -88,10 +108,22 @@ paths:
           description: Campaign updated
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     delete:
       summary: Delete a campaign by ID
       operationId: deleteCampaign
@@ -109,8 +141,16 @@ paths:
           description: Campaign deleted
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '404':
           description: Campaign not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/auth/register:
     post:
       summary: Register a new user
@@ -126,6 +166,10 @@ paths:
           description: User registered
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/auth/login:
     post:
       summary: Login and receive a JWT
@@ -145,6 +189,10 @@ paths:
                 $ref: '#/components/schemas/TokenResponse'
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     BearerAuth:
@@ -154,11 +202,11 @@ components:
   schemas:
     Channel:
       type: string
-#      enum:
-#        - Radio
-#        - TV
-#        - Social media
-#        - Search engine
+    #      enum:
+    #        - Radio
+    #        - TV
+    #        - Social media
+    #        - Search engine
     CreateCampaignDTO:
       type: object
       properties:
@@ -261,3 +309,13 @@ components:
           type: string
       required:
         - token
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: number
+        message:
+          type: string
+      required:
+        - status
+        - message

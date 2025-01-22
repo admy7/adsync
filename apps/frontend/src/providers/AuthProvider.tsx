@@ -1,25 +1,34 @@
 import React, { createContext, useCallback, useContext, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { client } from "../api";
+import { AxiosError } from "axios";
 
 interface AuthContextType {
   login: (email: string, password: string) => void;
   logout: () => void;
   isAuthenticated: () => boolean;
+  error: string | null;
+  setError: (error: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeToken, setToken] = useState<string | null>(localStorage.getItem("token"));
+  const [error, setError] = useState<string | null>(null);
 
   const login = async (email: string, password: string) => {
     try {
       const { token } = await client.loginUser({ email, password });
       setToken(token);
       localStorage.setItem("token", token);
+      setError(null);
     } catch (error) {
-      console.error(error);
+      if (error instanceof AxiosError) {
+        setError(error.response?.data?.message || "An error occurred");
+      } else {
+        setError("An error occurred");
+      }
     }
   };
 
@@ -36,7 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [activeToken]);
 
   return (
-    <AuthContext.Provider value={{ login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ login, logout, isAuthenticated, error, setError }}>
       {children}
     </AuthContext.Provider>
   );

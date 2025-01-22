@@ -5,7 +5,7 @@ import { AuthLayout } from "./AuthLayout";
 import { useAuth } from "../../providers/AuthProvider.tsx";
 
 export const SignIn: React.FC = () => {
-  const { login } = useAuth();
+  const { login, error, setError } = useAuth();
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -26,6 +26,7 @@ export const SignIn: React.FC = () => {
           <Link
             to="/signup"
             className="font-medium text-indigo-600 hover:text-indigo-500"
+            onClick={() => setError(null)}
           >
             Sign up
           </Link>
@@ -75,6 +76,12 @@ export const SignIn: React.FC = () => {
             />
           </div>
         </div>
+
+        {error && (
+          <div className="text-red-500 text-sm">
+            {error}
+          </div>
+        )}
 
         <div>
           <button

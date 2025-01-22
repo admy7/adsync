@@ -43,16 +43,8 @@ export const Dashboard: React.FC = () => {
     }, [campaigns]);
 
     const fetchCampaigns = async () => {
-      try {
-        const { campaigns } = await client.getAllCampaigns();
-        setCampaigns(campaigns!);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-        } else {
-          console.error("An unknown error occurred.");
-        }
-      }
+      const { campaigns } = await client.getAllCampaigns();
+      setCampaigns(campaigns!);
     };
 
     useEffect(() => {
@@ -81,8 +73,8 @@ export const Dashboard: React.FC = () => {
       };
 
       await client.updateCampaign(formattedData, { params: { id: editingCampaign.id! } });
-      setEditingCampaign(null);
       await fetchCampaigns();
+      setEditingCampaign(null);
     };
 
     const handleDeleteCampaign = async (id: string) => {
@@ -228,7 +220,8 @@ export const Dashboard: React.FC = () => {
                                     {option.label}
                                   </span>
                                     {selected ? (
-                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
+                                      <span
+                                        className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
                                       <Check className="h-5 w-5" aria-hidden="true" />
                                     </span>
                                     ) : null}
