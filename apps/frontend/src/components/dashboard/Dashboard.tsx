@@ -17,6 +17,7 @@ import { BarChart3, Check, ChevronDown, ChevronUp, Pencil, PlusCircle, Search, T
 import { CampaignViewModel as Campaign } from "../../api/contract.ts";
 import { client } from "../../api";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions, Transition } from "@headlessui/react";
+import { CampaignKeyFigures } from "./CampaignKeyFigures.tsx";
 
 export type CampaignFormData = Omit<Campaign, "id">;
 type SortField = "name" | "channel" | "budget" | "start" | "end";
@@ -178,9 +179,9 @@ export const Dashboard: React.FC = () => {
           const campaignEnd = parseISO(campaign.end);
           //
           if (date >= campaignStart && date <= campaignEnd) {
-          //   // Calculate daily budget (total budget divided by campaign duration)
-          //   const duration = Math.ceil((campaignEnd.getTime() - campaignStart.getTime()) / (1000 * 60 * 60 * 24));
-          //   const dailyBudget = campaign.budget / duration;
+            //   // Calculate daily budget (total budget divided by campaign duration)
+            //   const duration = Math.ceil((campaignEnd.getTime() - campaignStart.getTime()) / (1000 * 60 * 60 * 24));
+            //   const dailyBudget = campaign.budget / duration;
 
             dataPoint[campaign.name] = campaign.budget;
             dataPoint.total += campaign.budget;
@@ -249,38 +250,7 @@ export const Dashboard: React.FC = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Total Campaigns
-                </h3>
-                <p className="text-3xl font-bold text-indigo-600">
-                  {campaigns.length}
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Total Budget
-                </h3>
-                <p className="text-3xl font-bold text-indigo-600">
-                  {totalBudget.toLocaleString()}€
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Active Campaigns
-                </h3>
-                <p className="text-3xl font-bold text-indigo-600">
-                  {
-                    campaigns.filter(
-                      (campaign) =>
-                        new Date(campaign.end) >= new Date(),
-                    ).length
-                  }
-                </p>
-              </div>
-            </div>
-
+            <CampaignKeyFigures campaigns={campaigns} totalBudget={totalBudget} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="bg-white p-6 rounded-lg shadow">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
