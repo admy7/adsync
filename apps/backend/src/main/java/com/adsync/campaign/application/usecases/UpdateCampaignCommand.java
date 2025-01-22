@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public record UpdateCampaignCommand(
     String id,
+    Optional<String> name,
     Optional<Channel> channel,
     Optional<Double> budget,
     Optional<LocalDateTime> start,

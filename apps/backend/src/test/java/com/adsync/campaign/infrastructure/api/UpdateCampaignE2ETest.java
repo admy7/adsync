@@ -31,7 +31,7 @@ public class UpdateCampaignE2ETest extends IntegrationTest {
     Period period =
         new Period(
             LocalDateTime.parse("2025-04-01T08:00:00"), LocalDateTime.parse("2025-05-01T08:00:00"));
-    Campaign campaign = new Campaign(campaignId, Channel.SOCIAL_MEDIA, 10_000d, period);
+    Campaign campaign = new Campaign(campaignId, "Summer Sale", Channel.SOCIAL_MEDIA, 10_000d, period);
 
     campaignRepository.save(campaign);
   }
@@ -41,7 +41,7 @@ public class UpdateCampaignE2ETest extends IntegrationTest {
     var user = createAndSaveUser("1", "user", "password");
 
     var dto =
-        new UpdateCampaignDTO(Channel.TV, 10_000d, "2025-01-01T08:00:00", "2025-05-01T08:00:00");
+        new UpdateCampaignDTO("Winter Sale", "TV", 10_000d, "2025-01-01T08:00:00", "2025-05-01T08:00:00");
 
     mockMvc
         .perform(
@@ -54,7 +54,8 @@ public class UpdateCampaignE2ETest extends IntegrationTest {
 
     var campaign = campaignRepository.findById(campaignId).get();
 
-    assertThat(campaign.channel()).isEqualTo(dto.channel());
+    assertThat(campaign.name()).isEqualTo(dto.name());
+    assertThat(campaign.channel()).isEqualTo(dto._channel().get());
     assertThat(campaign.budget()).isEqualTo(10_000d);
     assertThat(campaign.period().start()).isEqualTo(LocalDateTime.parse("2025-01-01T08:00:00"));
     assertThat(campaign.period().end()).isEqualTo(dto.end());
@@ -64,7 +65,7 @@ public class UpdateCampaignE2ETest extends IntegrationTest {
   void updatePartiallyCampaign() throws Exception {
     var user = createAndSaveUser("1", "user", "password");
 
-    var dto = new UpdateCampaignDTO(null, 25_000d, null, "2025-05-01T08:00:00");
+    var dto = new UpdateCampaignDTO("Winter Sale", null, 25_000d, null, "2025-05-01T08:00:00");
 
     mockMvc
         .perform(

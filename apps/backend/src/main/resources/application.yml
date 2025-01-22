@@ -15,13 +15,8 @@ spring:
         database: postgresql
         database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-application:
-    security:
-        cors:
-            origins: http://localhost:5173
-
 jwt:
-    expiration: 60
+    expiration: 3600
     secret-key: "jwt-secret-key-string-test-1234567890"
 
 server:

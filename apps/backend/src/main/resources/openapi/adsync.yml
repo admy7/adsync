@@ -9,7 +9,7 @@ paths:
       summary: Create a new campaign
       operationId: createCampaign
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       requestBody:
         required: true
         content:
@@ -31,7 +31,7 @@ paths:
       summary: Retrieve all campaigns
       operationId: getAllCampaigns
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       responses:
         '200':
           description: List of all campaigns
@@ -46,7 +46,7 @@ paths:
       summary: Retrieve a campaign by ID
       operationId: getCampaign
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       parameters:
         - name: id
           in: path
@@ -69,7 +69,7 @@ paths:
       summary: Update a campaign by ID
       operationId: updateCampaign
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       parameters:
         - name: id
           in: path
@@ -96,7 +96,7 @@ paths:
       summary: Delete a campaign by ID
       operationId: deleteCampaign
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       parameters:
         - name: id
           in: path
@@ -154,40 +154,45 @@ components:
   schemas:
     Channel:
       type: string
-      enum:
-        - RADIO
-        - TV
-        - SOCIAL_MEDIA
-        - SEARCH_ENGINE
+#      enum:
+#        - Radio
+#        - TV
+#        - Social media
+#        - Search engine
     CreateCampaignDTO:
       type: object
       properties:
+        name:
+          type: string
         channel:
           $ref: '#/components/schemas/Channel'
         budget:
           type: number
-        startDate:
+        start:
           type: string
           format: date
-        endDate:
+        end:
           type: string
           format: date
       required:
+        - name
         - channel
         - budget
-        - startDate
-        - endDate
+        - start
+        - end
     UpdateCampaignDTO:
       type: object
       properties:
+        name:
+          type: string
         channel:
           $ref: '#/components/schemas/Channel'
         budget:
           type: number
-        startDate:
+        start:
           type: string
           format: date
-        endDate:
+        end:
           type: string
           format: date
     IdResponse:
@@ -197,25 +202,38 @@ components:
           type: string
           format: uuid
     GetAllCampaignsDTO:
-      type: array
-      items:
-        $ref: '#/components/schemas/CampaignViewModel'
+      type: object
+      properties:
+        count: number
+        campaigns:
+          type: array
+          items:
+            $ref: '#/components/schemas/CampaignViewModel'
     CampaignViewModel:
       type: object
       properties:
         id:
           type: string
           format: uuid
+        name:
+          type: string
         channel:
           $ref: '#/components/schemas/Channel'
         budget:
           type: number
-        startDate:
+        start:
           type: string
           format: date
-        endDate:
+        end:
           type: string
           format: date
+      required:
+        - id
+        - name
+        - channel
+        - budget
+        - start
+        - end
     CreateUserDTO:
       type: object
       properties:
@@ -241,3 +259,5 @@ components:
       properties:
         token:
           type: string
+      required:
+        - token

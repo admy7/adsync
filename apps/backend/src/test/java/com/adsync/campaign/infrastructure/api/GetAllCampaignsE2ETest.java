@@ -26,12 +26,12 @@ public class GetAllCampaignsE2ETest extends IntegrationTest {
     Period period1 =
         new Period(
             LocalDateTime.parse("2025-04-01T08:00:00"), LocalDateTime.parse("2025-05-01T08:00:00"));
-    Campaign campaign1 = new Campaign("1", Channel.SOCIAL_MEDIA, 10_000d, period1);
+    Campaign campaign1 = new Campaign("1", "Summer Sale", Channel.SOCIAL_MEDIA, 10_000d, period1);
 
     Period period2 =
         new Period(
             LocalDateTime.parse("2025-09-01T08:00:00"), LocalDateTime.parse("2025-12-01T08:00:00"));
-    Campaign campaign2 = new Campaign("2", Channel.RADIO, 2000d, period2);
+    Campaign campaign2 = new Campaign("2", "Brand Awareness", Channel.RADIO, 2000d, period2);
 
     campaignRepository.save(campaign1);
     campaignRepository.save(campaign2);

@@ -27,7 +27,7 @@ public class DeleteCampaignE2ETest extends IntegrationTest {
     Period period =
         new Period(
             LocalDateTime.parse("2025-04-01T08:00:00"), LocalDateTime.parse("2025-05-01T08:00:00"));
-    Campaign campaign = new Campaign(campaignId, Channel.SOCIAL_MEDIA, 10_000d, period);
+    Campaign campaign = new Campaign(campaignId, "Winter Sale", Channel.SOCIAL_MEDIA, 10_000d, period);
 
     campaignRepository.save(campaign);
   }

@@ -24,7 +24,7 @@ public class UpdateCampaignCommandTest {
 
     LocalDateTime start = LocalDateTime.parse("2025-05-01T08:00:00");
     LocalDateTime end = LocalDateTime.parse("2025-07-31T08:00:00");
-    var campaign = new Campaign(campaignId, Channel.RADIO, 1000d, new Period(start, end));
+    var campaign = new Campaign(campaignId, "Brand Awareness", Channel.RADIO, 1000d, new Period(start, end));
 
     campaignRepository.save(campaign);
   }
@@ -34,6 +34,7 @@ public class UpdateCampaignCommandTest {
     var command =
         new UpdateCampaignCommand(
             campaignId,
+            Optional.of("New Brand Awareness"),
             Optional.of(Channel.SOCIAL_MEDIA),
             Optional.of(10_000d),
             Optional.of(LocalDateTime.parse("2025-03-01T08:00:00")),
@@ -45,6 +46,7 @@ public class UpdateCampaignCommandTest {
 
     var updatedCampaign = campaignRepository.findById(campaignId).get();
 
+    assertThat(updatedCampaign.name()).isEqualTo("New Brand Awareness");
     assertThat(updatedCampaign.channel()).isEqualTo(Channel.SOCIAL_MEDIA);
     assertThat(updatedCampaign.budget()).isEqualTo(10_000);
     assertThat(updatedCampaign.period().start()).isEqualTo("2025-03-01T08:00:00");
@@ -56,6 +58,7 @@ public class UpdateCampaignCommandTest {
     var command =
         new UpdateCampaignCommand(
             campaignId,
+            Optional.ofNullable(null),
             Optional.of(Channel.SOCIAL_MEDIA),
             Optional.ofNullable(null),
             Optional.ofNullable(null),
@@ -67,6 +70,7 @@ public class UpdateCampaignCommandTest {
 
     var updatedCampaign = campaignRepository.findById(campaignId).get();
 
+    assertThat(updatedCampaign.name()).isEqualTo("Brand Awareness");
     assertThat(updatedCampaign.channel()).isEqualTo(Channel.SOCIAL_MEDIA);
     assertThat(updatedCampaign.budget()).isEqualTo(1000);
     assertThat(updatedCampaign.period().start()).isEqualTo("2025-05-01T08:00:00");
@@ -77,7 +81,7 @@ public class UpdateCampaignCommandTest {
   void updateNonExistingCampaign_shouldThrow() {
     var command =
         new UpdateCampaignCommand(
-            "non-existing-id", Optional.of(Channel.SOCIAL_MEDIA), null, null, null);
+            "non-existing-id", null, null, null, null, null);
 
     var handler = new UpdateCampaignCommandHandler(campaignRepository);
 

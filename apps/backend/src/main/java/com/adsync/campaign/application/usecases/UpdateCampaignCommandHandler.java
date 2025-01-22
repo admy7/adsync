@@ -18,8 +18,9 @@ public class UpdateCampaignCommandHandler implements Command.Handler<UpdateCampa
             .findById(command.id())
             .orElseThrow(() -> new CampaignNotFoundException(command.id()));
 
-    command.budget().ifPresent(campaign::updateBudget);
+    command.name().ifPresent(campaign::updateName);
     command.channel().ifPresent(campaign::updateChannel);
+    command.budget().ifPresent(campaign::updateBudget);
     command.start().ifPresent(campaign::updateStart);
     command.end().ifPresent(campaign::updateEnd);
 

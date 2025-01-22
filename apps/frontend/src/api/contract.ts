@@ -1,39 +1,43 @@
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
-
-
 export type CreateCampaignDTO = {
+    name: string;
     channel: Channel;
     budget: number;
-    startDate: string;
-    endDate: string;
+    start: string;
+    end: string;
 };;
-export type Channel = "RADIO" | "TV" | "SOCIAL_MEDIA" | "SEARCH_ENGINE";;
+export type Channel = string;;
 export type UpdateCampaignDTO = Partial<{
+    name: string;
     channel: Channel;
     budget: number;
-    startDate: string;
-    endDate: string;
+    start: string;
+    end: string;
 }>;;
-export type GetAllCampaignsDTO = Array<CampaignViewModel>;;
-export type CampaignViewModel = Partial<{
+export type GetAllCampaignsDTO = Partial<{
+    count: unknown;
+    campaigns: Array<CampaignViewModel>;
+}>;;
+export type CampaignViewModel = {
     id: string;
+    name: string;
     channel: Channel;
     budget: number;
-    startDate: string;
-    endDate: string;
-}>;;
+    start: string;
+    end: string;
+};;
 
-const Channel = z.enum(["RADIO", "TV", "SOCIAL_MEDIA", "SEARCH_ENGINE"]);
-const CreateCampaignDTO: z.ZodType<CreateCampaignDTO> = z.object({ channel: Channel, budget: z.number(), startDate: z.string(), endDate: z.string() }).passthrough();
+export const Channel = z.string();
+const CreateCampaignDTO: z.ZodType<CreateCampaignDTO> = z.object({ name: z.string(), channel: Channel, budget: z.number(), start: z.string(), end: z.string() }).passthrough();
 const IdResponse = z.object({ id: z.string().uuid() }).partial().passthrough();
-const CampaignViewModel: z.ZodType<CampaignViewModel> = z.object({ id: z.string().uuid(), channel: Channel, budget: z.number(), startDate: z.string(), endDate: z.string() }).partial().passthrough();
-const GetAllCampaignsDTO: z.ZodType<GetAllCampaignsDTO> = z.array(CampaignViewModel);
-const UpdateCampaignDTO: z.ZodType<UpdateCampaignDTO> = z.object({ channel: Channel, budget: z.number(), startDate: z.string(), endDate: z.string() }).partial().passthrough();
+const CampaignViewModel: z.ZodType<CampaignViewModel> = z.object({ id: z.string().uuid(), name: z.string(), channel: Channel, budget: z.number(), start: z.string(), end: z.string() }).passthrough();
+const GetAllCampaignsDTO: z.ZodType<GetAllCampaignsDTO> = z.object({ count: z.unknown(), campaigns: z.array(CampaignViewModel) }).partial().passthrough();
+const UpdateCampaignDTO: z.ZodType<UpdateCampaignDTO> = z.object({ name: z.string(), channel: Channel, budget: z.number(), start: z.string(), end: z.string() }).partial().passthrough();
 const CreateUserDTO = z.object({ email: z.string(), password: z.string() }).passthrough();
 const LogInDTO = z.object({ email: z.string(), password: z.string() }).passthrough();
-const TokenResponse = z.object({ token: z.string() }).partial().passthrough();
+const TokenResponse = z.object({ token: z.string() }).passthrough();
 
 export const schemas = {
 	Channel,
@@ -60,7 +64,7 @@ const endpoints = makeApi([
 				schema: LogInDTO
 			},
 		],
-		response: z.object({ token: z.string() }).partial().passthrough(),
+		response: z.object({ token: z.string() }).passthrough(),
 		errors: [
 			{
 				status: 400,
@@ -121,7 +125,7 @@ const endpoints = makeApi([
 		path: "/api/v1/campaigns",
 		alias: "getAllCampaigns",
 		requestFormat: "json",
-		response: z.array(CampaignViewModel),
+		response: GetAllCampaignsDTO,
 		errors: [
 			{
 				status: 401,
@@ -219,6 +223,8 @@ const endpoints = makeApi([
 		]
 	},
 ]);
+
+export const api = new Zodios(endpoints);
 
 export function createApiClient(baseUrl: string, options?: ZodiosOptions) {
     return new Zodios(baseUrl, endpoints, options);

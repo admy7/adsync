@@ -14,7 +14,7 @@ public class CreateCampaignCommandTest {
   public void createCampaign() {
     LocalDateTime start = LocalDateTime.parse("2025-02-01T08:00:00");
     LocalDateTime end = LocalDateTime.parse("2025-03-01T14:00:00");
-    var command = new CreateCampaignCommand(Channel.TV, 2500d, start, end);
+    var command = new CreateCampaignCommand("Brand Awareness", Channel.TV, 2500d, start, end);
 
     var repository = new InMemoryCampaignRepository();
     var handler = new CreateCampaignCommandHandler(repository);
@@ -24,6 +24,7 @@ public class CreateCampaignCommandTest {
     var result = repository.findById(response.id()).get();
 
     assertThat(result).isNotNull();
+    assertThat(result.name()).isEqualTo("Brand Awareness");
     assertThat(result.channel()).isEqualTo(Channel.TV);
     assertThat(result.budget()).isEqualTo(2500);
     assertThat(result.period().start()).isEqualTo("2025-02-01T08:00:00");

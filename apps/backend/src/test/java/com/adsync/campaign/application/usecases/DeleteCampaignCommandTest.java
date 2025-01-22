@@ -23,7 +23,7 @@ public class DeleteCampaignCommandTest {
 
     LocalDateTime start = LocalDateTime.parse("2025-05-01T08:00:00");
     LocalDateTime end = LocalDateTime.parse("2025-07-31T08:00:00");
-    Campaign campaign = new Campaign(campaignId, Channel.RADIO, 1000d, new Period(start, end));
+    Campaign campaign = new Campaign(campaignId, "Brand Awareness", Channel.RADIO, 1000d, new Period(start, end));
 
     campaignRepository.save(campaign);
   }
