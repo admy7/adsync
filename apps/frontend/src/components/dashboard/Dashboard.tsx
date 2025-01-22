@@ -18,6 +18,7 @@ import { CampaignViewModel as Campaign } from "../../api/contract.ts";
 import { client } from "../../api";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions, Transition } from "@headlessui/react";
 import { CampaignKeyFigures } from "./CampaignKeyFigures.tsx";
+import { ChannelBarChart } from "./ChannelBarChart.tsx";
 
 export type CampaignFormData = Omit<Campaign, "id">;
 type SortField = "name" | "channel" | "budget" | "start" | "end";
@@ -144,15 +145,6 @@ export const Dashboard: React.FC = () => {
     }, [campaigns, sortField, sortDirection, searchTerm, selectedChannel]);
     const totalBudget = campaigns.reduce((sum, campaign) => sum + campaign.budget, 0);
 
-    const channelData = campaigns.reduce((acc: any[], campaign) => {
-      const existing = acc.find((item) => item.channel === campaign.channel);
-      if (existing) {
-        existing.budget += campaign.budget;
-      } else {
-        acc.push({ channel: campaign.channel, budget: campaign.budget });
-      }
-      return acc;
-    }, []);
 
     const timelineData = React.useMemo(() => {
       if (campaigns.length === 0) return [];
@@ -252,22 +244,7 @@ export const Dashboard: React.FC = () => {
           <>
             <CampaignKeyFigures campaigns={campaigns} totalBudget={totalBudget} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
-                  Budget by Channel
-                </h3>
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={channelData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="channel" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="budget" fill="#4f46e5" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
+              <ChannelBarChart campaigns={campaigns} />
               <div className="bg-white p-6 rounded-lg shadow">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">
                   Campaign Timeline
