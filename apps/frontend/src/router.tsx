@@ -7,8 +7,19 @@ import { Dashboard } from "./components/dashboard/Dashboard.tsx";
 
 
 const ProtectedRoute = () => {
-  const { isAuthenticated } = useAuth();
-  if (!isAuthenticated) {
+  const { isAuthenticated, logout } = useAuth();
+
+  // useEffect(
+  //   () => {
+  //     if (!isAuthenticated()) {
+  //       logout();
+  //     }
+  //   },
+  //   [isAuthenticated, logout]
+  // )
+
+  if (!isAuthenticated()) {
+    logout();
     return <Navigate to="/signin" replace />;
   }
 
@@ -17,7 +28,8 @@ const ProtectedRoute = () => {
 
 const PublicRoute = () => {
   const { isAuthenticated } = useAuth();
-  if (isAuthenticated) {
+
+  if (isAuthenticated()) {
     return <Navigate to="/" replace />;
   }
 
@@ -29,11 +41,11 @@ export const router = createBrowserRouter([
     element: <PublicRoute />,
     children: [
       {
-        path: 'signin',
+        path: "signin",
         element: <SignIn />,
       },
       {
-        path: 'signup',
+        path: "signup",
         element: <SignUp />,
       },
     ],
@@ -45,7 +57,7 @@ export const router = createBrowserRouter([
         element: <Layout />,
         children: [
           {
-            path: '/',
+            path: "/",
             element: <Dashboard />,
           },
         ],

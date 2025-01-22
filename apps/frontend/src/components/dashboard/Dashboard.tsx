@@ -22,10 +22,10 @@ const ALL_CHANNELS_OPTION = { value: "all", label: "All Channels" };
 
 export const Dashboard: React.FC = () => {
     const [campaigns, setCampaigns] = React.useState<Campaign[]>([]);
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [editingCampaign, setEditingCampaign] = React.useState<Campaign | null>(
       null,
     );
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [sortField, setSortField] = React.useState<SortField>("name");
     const [sortDirection, setSortDirection] = React.useState<SortDirection>("asc");
     const [searchTerm, setSearchTerm] = React.useState("");

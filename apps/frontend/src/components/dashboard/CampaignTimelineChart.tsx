@@ -43,12 +43,10 @@ export const CampaignTimelineChart: React.FC<CampaignTimelineChartProps> = ({ ca
       campaigns.forEach(campaign => {
         const campaignStart = parseISO(campaign.start);
         const campaignEnd = parseISO(campaign.end);
-        //
+
         if (date >= campaignStart && date <= campaignEnd) {
           dataPoint[campaign.name] = campaign.budget;
           dataPoint.total += campaign.budget;
-        } else {
-          dataPoint[campaign.name] = 0;
         }
       });
 
@@ -88,7 +86,7 @@ export const CampaignTimelineChart: React.FC<CampaignTimelineChartProps> = ({ ca
             tickFormatter={(value) => `${value.toLocaleString()}€`}
           />
           <Tooltip
-            formatter={(value: number) => [`${value.toLocaleString()}€`, ""]}
+            formatter={(value: number, name: string) => [`${value.toLocaleString()}€`, name]}
             labelFormatter={(label) => format(parseISO(label as string), "MMM d, yyyy")}
           />
           <Legend />
