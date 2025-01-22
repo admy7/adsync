@@ -226,7 +226,7 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({
                     <input
                       type="date"
                       className={inputClassName}
-                      value={format(formData.start, "yyyy-MM-dd")}
+                      value={formData.start ? format(new Date(formData.start), "yyyy-MM-dd"): ""}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
@@ -243,7 +243,7 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({
                     <input
                       type="date"
                       className={inputClassName}
-                      value={format(formData.end, "yyyy-MM-dd")}
+                      value={formData.end ? format(new Date(formData.end), "yyyy-MM-dd"): ""}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
