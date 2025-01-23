@@ -48,6 +48,7 @@ export const CampaignModal: React.FC<CampaignModalProps> = ({ isOpen, onClose, o
         },
       );
     }
+    setError(null);
   }, [isOpen, initialData]);
 
   const handleSubmit = (e: React.FormEvent) => {
