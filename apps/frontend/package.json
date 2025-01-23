@@ -1,7 +1,7 @@
 {
   "name": "adsync-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "generate": "openapi-zod-client ../backend/src/main/resources/openapi/adsync.yml -o src/api/contract.ts --export-types=true",
