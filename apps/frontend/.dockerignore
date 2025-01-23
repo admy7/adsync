@@ -1,0 +1,16 @@
+node_modules
+
+package-lock.json
+
+*.log
+
+dist
+
+.env
+
+.git
+
+Dockerfile
+.dockerignore
+
+.idea

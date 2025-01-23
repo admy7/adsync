@@ -1,25 +1,25 @@
 spring:
-    application:
-        name: AdSync
-    datasource:
-        url: jdbc:postgresql://localhost:5432/db
-        username: user
-        password: password
-        driver-class-name: org.postgresql.Driver
-    jpa:
-        hibernate:
-            ddl-auto: update
-        properties:
-          hibernate:
-              format_sql: true
-        database: postgresql
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
+  application:
+    name: AdSync
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/db}
+    username: ${DB_USERNAME:user}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 jwt:
-    expiration: 3600
-    secret-key: "jwt-secret-key-string-test-1234567890"
+  expiration: 3600
+  secret-key: "jwt-secret-key-string-test-1234567890"
 
 server:
-    servlet:
-        context-path: /api/v1/
-    port: 8080
+  servlet:
+    context-path: /api/v1/
+  port: 8080
