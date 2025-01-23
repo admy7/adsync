@@ -93,3 +93,11 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/adsync-backend:${{ steps.version.outputs.VERSION }}
             ${{ secrets.DOCKERHUB_USERNAME }}/adsync-backend:latest
+
+      - name: Trigger Deployment
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GH_ACCESS_TOKEN }}" \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            https://api.github.com/repos/admy7/adsync/dispatches \
+            -d '{"event_type": "trigger-deploy"}'

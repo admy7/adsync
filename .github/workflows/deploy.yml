@@ -1,0 +1,80 @@
+name: Deploy
+
+on:
+  repository_dispatch:
+    types:
+      - trigger-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install AWS CLI
+        run: |
+          if ! [ -x "$(command -v aws)" ]; then
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+          fi
+          aws --version
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+
+      - name: Get Public IP of Runner
+        id: get_ip
+        run: echo "runner_ip=$(curl -s https://checkip.amazonaws.com)" >> $GITHUB_ENV
+
+      - name: Allow SSH Access
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ env.runner_ip }}/32
+
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+
+      - name: Set Environment Variables on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP_ADDRESS }} << EOF
+          echo "EC2_IP=${{ secrets.EC2_IP_ADDRESS }}" >> /home/ubuntu/adsync-deployment/.env
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> /home/ubuntu/adsync-deployment/.env
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> /home/ubuntu/adsync-deployment/.env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> /home/ubuntu/adsync-deployment/.env
+          echo "Environment variables saved to .env file"
+          EOF
+
+      - name: Copy Docker Compose file to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no docker-compose.yml ubuntu@${{ secrets.EC2_IP_ADDRESS }}:/home/ubuntu/adsync-deployment
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_IP_ADDRESS }} << 'EOF'
+            cd /home/ubuntu/adsync-deployment
+            echo "${{ secrets.DOCKERHUB_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+            sudo docker-compose down
+            sudo docker-compose rm -f
+            sudo docker-compose pull   
+            sudo docker-compose up -d
+          EOF
+
+      - name: Revoke SSH Access
+        if: always()
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ env.runner_ip }}/32

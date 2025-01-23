@@ -16,7 +16,7 @@ spring:
 
 jwt:
   expiration: 3600
-  secret-key: "jwt-secret-key-string-test-1234567890"
+  secret-key: "jwt-secret-key-string-long-test-1234567890"
 
 server:
   servlet:

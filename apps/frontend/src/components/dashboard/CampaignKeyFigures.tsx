@@ -8,6 +8,14 @@ type CampaignKeyFiguresProps = {
 export const CampaignKeyFigures: React.FC<CampaignKeyFiguresProps> = ({ campaigns }) => {
   const totalBudget = campaigns.reduce((sum, campaign) => sum + campaign.budget, 0);
 
+  const isCampaignActive = (campaign: Campaign) => {
+    const start = new Date(campaign.start);
+    const end = new Date(campaign.end);
+    const now = new Date();
+
+    return start < now && end > now;
+  };
+
   return (
     <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
       <div className="rounded-lg bg-white p-6 shadow">
@@ -20,9 +28,7 @@ export const CampaignKeyFigures: React.FC<CampaignKeyFiguresProps> = ({ campaign
       </div>
       <div className="rounded-lg bg-white p-6 shadow">
         <h3 className="mb-2 text-lg font-medium text-gray-900">Active Campaigns</h3>
-        <p className="text-3xl font-bold text-indigo-600">
-          {campaigns.filter((campaign) => new Date(campaign.end) >= new Date()).length}
-        </p>
+        <p className="text-3xl font-bold text-indigo-600">{campaigns.filter(isCampaignActive).length}</p>
       </div>
     </div>
   );

@@ -16,9 +16,7 @@ services:
       retries: 2
 
   adsync-backend:
-    build:
-      context: ./apps/backend
-      dockerfile: Dockerfile
+    image: "younesadem/adsync-backend:latest"
     environment:
       - DB_URL=jdbc:postgresql://db:5432/${POSTGRES_DB}
       - DB_USERNAME=${POSTGRES_USER}
@@ -30,11 +28,7 @@ services:
       - "8080:8080"
 
   adsync-frontend:
-    build:
-      context: ./apps/frontend
-      dockerfile: Dockerfile
-      args:
-        VITE_BACKEND_URL: http://localhost:8080
+    image: "younesadem/adsync-frontend:latest"
     depends_on:
       adsync-backend:
         condition: service_started

@@ -25,14 +25,22 @@ designed for scalability and ease of use, leveraging modern tools and frameworks
 ## Prerequisites
 
 - **Node.js** (v21 or higher)
+- **NPM** (v10 or higher)
 - **Java** (v21 or higher)
 - **Docker** (if running via containers)
-- **Docker Compose**
+- **Docker Compose** (if running via containers)
 - **PostgreSQL** (if running the backend locally without Docker)
 
 ---
 
 ## Installation
+
+Clone the repository and navigate to the project directory:
+
+```bash
+git clone https://github.com/admy7/adsync.git
+cd adsync
+```
 
 ### Run with Docker (Recommended)
 
@@ -48,8 +56,8 @@ Run:
 
 ```bash
 docker-compose build
-// or docker compose build 
-// (depending on your docker compose version)
+# or docker compose build 
+# (depending on your docker compose version)
 ```
 
 #### 2. Start Services
@@ -58,8 +66,8 @@ Run the following command to start the backend, frontend, and database:
 
 ```bash
 docker-compose up
-// or docker compose up
-// (depending on your docker compose version)
+# or docker compose up
+# (depending on your docker compose version)
 ```
 
 #### 3. Access the Application
@@ -79,8 +87,8 @@ From the root directory, run:
 
 ```bash
 docker-compose -f docker-compose.dev.yml up -d
-// or docker compose -f docker-compose.dev.yml up -d
-// (depending on your docker compose version)
+# or docker compose -f docker-compose.dev.yml up -d
+# (depending on your docker compose version)
 ```
 
 ##### Run the backend
