@@ -4,13 +4,13 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { CampaignViewModel as Campaign } from "../../api/contract.ts";
 
 type CampaignBarChartProps = {
-  campaigns: Campaign[]
+  campaigns: Campaign[];
 };
 
 type ChannelData = {
   channel: string;
   budget: number;
-}
+};
 
 export const ChannelBarChart: React.FC<CampaignBarChartProps> = ({ campaigns }) => {
   const channelData = campaigns.reduce((acc: ChannelData[], campaign) => {
@@ -23,20 +23,20 @@ export const ChannelBarChart: React.FC<CampaignBarChartProps> = ({ campaigns }) 
     return acc;
   }, []);
 
-  return <div className="bg-white p-6 rounded-lg shadow">
-    <h3 className="text-lg font-medium text-gray-900 mb-4">
-      Budget by Channel
-    </h3>
-    <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={channelData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="channel" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="budget" fill="#4f46e5" />
-        </BarChart>
-      </ResponsiveContainer>
+  return (
+    <div className="rounded-lg bg-white p-6 shadow">
+      <h3 className="mb-4 text-lg font-medium text-gray-900">Budget by Channel</h3>
+      <div className="h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={channelData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="channel" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="budget" fill="#4f46e5" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
-  </div>;
+  );
 };

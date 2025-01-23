@@ -3,9 +3,11 @@ import { router } from "./router";
 import { AuthProvider } from "./providers/AuthProvider.tsx";
 
 function App() {
-  return <AuthProvider>
-    <RouterProvider router={router} />
-  </AuthProvider>;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App;

@@ -24,7 +24,8 @@ public class UpdateCampaignCommandTest {
 
     LocalDateTime start = LocalDateTime.parse("2025-05-01T08:00:00");
     LocalDateTime end = LocalDateTime.parse("2025-07-31T08:00:00");
-    var campaign = new Campaign(campaignId, "Brand Awareness", Channel.RADIO, 1000d, new Period(start, end));
+    var campaign =
+        new Campaign(campaignId, "Brand Awareness", Channel.RADIO, 1000d, new Period(start, end));
 
     campaignRepository.save(campaign);
   }
@@ -79,9 +80,7 @@ public class UpdateCampaignCommandTest {
 
   @Test
   void updateNonExistingCampaign_shouldThrow() {
-    var command =
-        new UpdateCampaignCommand(
-            "non-existing-id", null, null, null, null, null);
+    var command = new UpdateCampaignCommand("non-existing-id", null, null, null, null, null);
 
     var handler = new UpdateCampaignCommandHandler(campaignRepository);
 

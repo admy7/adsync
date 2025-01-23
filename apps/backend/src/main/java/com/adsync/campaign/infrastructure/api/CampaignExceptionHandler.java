@@ -15,27 +15,26 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Order(1)
 public class CampaignExceptionHandler {
 
-    @ExceptionHandler(CampaignNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponse> handleCampaignNotFoundException(
-            CampaignNotFoundException ex) {
-        var errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
+  @ExceptionHandler(CampaignNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<ErrorResponse> handleCampaignNotFoundException(
+      CampaignNotFoundException ex) {
+    var errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+  }
 
-    @ExceptionHandler(InvalidCampaignPeriodException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleInvalidCampaignPeriodException(
-            InvalidCampaignPeriodException ex) {
-        var errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
+  @ExceptionHandler(InvalidCampaignPeriodException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ErrorResponse> handleInvalidCampaignPeriodException(
+      InvalidCampaignPeriodException ex) {
+    var errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
 
-    @ExceptionHandler(InvalidChannelException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleInvalidChannelException(
-            InvalidChannelException ex) {
-        var errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
+  @ExceptionHandler(InvalidChannelException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ErrorResponse> handleInvalidChannelException(InvalidChannelException ex) {
+    var errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+  }
 }

@@ -5,18 +5,8 @@ import { SignUp } from "./components/auth/SignUp";
 import { useAuth } from "./providers/AuthProvider.tsx";
 import { Dashboard } from "./components/dashboard/Dashboard.tsx";
 
-
 const ProtectedRoute = () => {
   const { isAuthenticated, logout } = useAuth();
-
-  // useEffect(
-  //   () => {
-  //     if (!isAuthenticated()) {
-  //       logout();
-  //     }
-  //   },
-  //   [isAuthenticated, logout]
-  // )
 
   if (!isAuthenticated()) {
     logout();
