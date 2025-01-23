@@ -99,7 +99,7 @@ cd apps/backend
 ##### Navigate to the frontend directory:
 
 ```bash
-cd ../frontend
+cd apps/frontend
 ```
 
 ##### Install dependencies:
